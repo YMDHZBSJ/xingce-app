@@ -1012,40 +1012,22 @@ export default function PracticePage() {
         }}
       />
 
-      {/* 交卷确认弹窗（Portal 到 body，保证居中不被动画容器影响） */}
-      {showSubmitConfirm && (
-        <FixedLayer>
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 px-6" onClick={() => { setShowSubmitConfirm(false); setPendingAction(null); }}>
-          <div className="rounded-xl bg-[var(--surface)] border border-[var(--line)] p-6 max-w-sm mx-4 shadow-lg" onClick={(e) => e.stopPropagation()}>
-            <p className="text-base text-[var(--fg)] mb-4">
-              {!allAnswered
-                ? "还有未作答题目，确认交卷？"
-                : "确认交卷？"}
-            </p>
-            <div className="flex gap-3 justify-end">
-              <button
-                onClick={() => { setShowSubmitConfirm(false); setPendingAction(null); }}
-                className="px-4 py-2 rounded-lg border border-[var(--line)] text-sm text-[var(--fg)] hover:border-[var(--accent)] transition-smooth"
-              >
-                取消
-              </button>
-              <button
-                onClick={() => {
-                  setShowSubmitConfirm(false);
-                  if (pendingAction) {
-                    pendingAction();
-                    setPendingAction(null);
-                  }
-                }}
-                className="px-4 py-2 rounded-lg bg-red-500 text-white text-sm font-medium hover:opacity-80 transition-smooth"
-              >
-                确认交卷
-              </button>
-            </div>
-          </div>
-        </div>
-      </FixedLayer>
-      )}
+      {/* 交卷确认（统一样式） */}
+      <ConfirmDialog
+        open={showSubmitConfirm}
+        title="确认交卷？"
+        desc={!allAnswered
+          ? `还有 ${Math.max(0, questions.length - answeredCount)} 题未作答，交卷后不能再改`
+          : "全部题已作答，交卷后生成练习报告"}
+        progress={{ done: answeredCount, total: questions.length }}
+        confirmText="交卷"
+        cancelText="再检查一下"
+        onConfirm={() => {
+          setShowSubmitConfirm(false);
+          if (pendingAction) { pendingAction(); setPendingAction(null); }
+        }}
+        onCancel={() => { setShowSubmitConfirm(false); setPendingAction(null); }}
+      />
     </div>
   );
 }

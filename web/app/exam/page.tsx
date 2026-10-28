@@ -15,6 +15,7 @@ import QuestionNav from "../components/QuestionNav";
 import QuestionTimer from "../components/QuestionTimer";
 import ConfirmDialog from "../components/ConfirmDialog";
 import ScorePoster from "../components/ScorePoster";
+import QuestionModal from "../components/QuestionModal";
 import FixedLayer from "../components/FixedLayer";
 import { useSearchParams } from "next/navigation";
 import QuestionCard, { type Question, normalizeOptions } from "../components/QuestionCard";
@@ -912,35 +913,19 @@ function ExamPageContent() {
           onCancel={() => { setExitAsk(false); setPhase("select"); }}
         />
 
-        {/* 交卷确认弹窗 */}
-        {showSubmitConfirm && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40" onClick={() => setShowSubmitConfirm(false)}>
-            <div className="rounded-xl bg-[var(--surface)] border border-[var(--line)] p-6 max-w-sm mx-4 shadow-lg" onClick={(e) => e.stopPropagation()}>
-              <p className="text-base text-[var(--fg)] mb-4">
-                {Object.keys(answers).length < questions.length
-                  ? "还有未作答题目，确认交卷？"
-                  : "确认交卷？"}
-              </p>
-              <div className="flex gap-3 justify-end">
-                <button
-                  onClick={() => setShowSubmitConfirm(false)}
-                  className="px-4 py-2 rounded-lg border border-[var(--line)] text-sm text-[var(--fg)] hover:border-[var(--accent)] transition-smooth"
-                >
-                  取消
-                </button>
-                <button
-                  onClick={() => {
-                    setShowSubmitConfirm(false);
-                    submitExam();
-                  }}
-                  className="px-4 py-2 rounded-lg bg-red-500 text-white text-sm font-medium hover:opacity-80 transition-smooth"
-                >
-                  确认交卷
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        {/* 交卷确认（统一样式） */}
+        <ConfirmDialog
+          open={showSubmitConfirm}
+          title="确认交卷？"
+          desc={Object.keys(answers).length < questions.length
+            ? `还有 ${questions.length - Object.keys(answers).length} 题未作答，交卷后不能再改`
+            : "全部题已作答，交卷后生成成绩报告"}
+          progress={{ done: Object.keys(answers).length, total: questions.length }}
+          confirmText="交卷"
+          cancelText="再检查一下"
+          onConfirm={() => { setShowSubmitConfirm(false); submitExam(); }}
+          onCancel={() => setShowSubmitConfirm(false)}
+        />
       </div>
     );
   }
@@ -1127,112 +1112,9 @@ function ExamPageContent() {
           </div>
 
           {/* 详情面板 */}
-          {detailQuestion && (() => {
-            const q = questions.find((qq) => qq.id === detailQuestion);
-            if (!q) return null;
-            const idx = questions.indexOf(q);
-            const userAns = answers[q.id];
-            const correctAns = (q.answer ?? "").trim();
-            const isCorrect = userAns === correctAns;
-            const hasAnswer = !!userAns;
-
-            return (
-              <div
-                className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 p-4"
-                onClick={() => setDetailQuestion(null)}
-              >
-                <div
-                  className="w-full max-w-3xl max-h-[85vh] overflow-y-auto rounded-xl border border-[var(--line)] bg-[var(--surface)] p-5 shadow-xl"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <div className="flex items-center justify-between mb-3 gap-3">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-semibold text-[var(--fg)]">
-                        第 {idx + 1} 题
-                      </span>
-                      <span
-                        className={`text-xs font-medium px-2 py-0.5 rounded ${
-                          hasAnswer
-                            ? isCorrect
-                              ? "bg-[var(--ok-bg)] text-[var(--ok-fg)]"
-                              : "bg-[var(--bad-bg)] text-[var(--bad-fg)]"
-                            : "bg-[var(--chip)] text-[var(--fg-muted)]"
-                        }`}
-                      >
-                        {hasAnswer ? (isCorrect ? "正确" : "错误") : "未作答"}
-                      </span>
-                      {q.qtype && (
-                        <span className="text-xs text-[var(--fg-muted)]">{q.qtype}</span>
-                      )}
-                    </div>
-                    <button
-                      onClick={() => setDetailQuestion(null)}
-                      className="px-3 py-1.5 rounded-lg border border-[var(--line)] text-xs text-[var(--fg)] hover:border-[var(--accent)] transition-smooth"
-                    >
-                      关闭
-                    </button>
-                  </div>
-
-                  <div className="text-sm text-[var(--fg)] leading-relaxed mb-3">
-                    {transformImagePath(q.stem || "")}
-                  </div>
-
-                  {/* 选项展示：用户选错的标红，选对/正确答案标绿 */}
-                  {(() => {
-                    const opts = normalizeOptions(q.options);
-                    return opts.length > 0 && (
-                      <div className="space-y-2 mb-3">
-                        {opts.map((opt, i) => {
-                          const isSelected = userAns === opt.label;
-                          const isCorrectOpt = opt.label === correctAns;
-                          let optClass = "px-3 py-2 rounded-lg border text-sm ";
-                          if (isSelected && isCorrect) {
-                            optClass += "border-[var(--ok)] bg-[var(--ok-bg)] text-[var(--ok-fg)]";
-                          } else if (isSelected && !isCorrect) {
-                            optClass += "border-[var(--accent)] bg-[var(--bad-bg)] text-[var(--bad-fg)]";
-                          } else if (isCorrectOpt) {
-                            optClass += "border-[var(--ok)] bg-[var(--ok-bg)] text-[var(--ok-fg)]";
-                          } else {
-                            optClass += "border-[var(--line)] bg-[var(--surface)] text-[var(--fg)]";
-                          }
-                          return (
-                            <div key={i} className={optClass}>
-                              <span className="font-medium mr-2">{opt.label}.</span>
-                              <span dangerouslySetInnerHTML={{ __html: transformImagePath(opt.text) }} />
-                            </div>
-                          );
-                        })}
-                      </div>
-                    );
-                  })()}
-
-                  <div className="flex items-start gap-2 text-xs mb-2">
-                    <span className="text-[var(--fg-muted)]">你的答案：</span>
-                    <span className={hasAnswer ? (isCorrect ? "text-[var(--ok-fg)]" : "text-[var(--bad-fg)]") : "text-[var(--fg-muted)]"}>
-                      {userAns || "未作答"}
-                    </span>
-                  </div>
-                  <div className="flex items-start gap-2 text-xs mb-2">
-                    <span className="text-[var(--fg-muted)]">正确答案：</span>
-                    <span className="text-[var(--ok-fg)] font-medium">{correctAns || "—"}</span>
-                  </div>
-                  {q.analysis && (
-                    <div className="mt-3 pt-3 border-t border-[var(--line)]">
-                      <span className="text-xs font-medium text-[var(--fg-muted)] block mb-1">
-                        解析：
-                      </span>
-                      <div
-                        className="text-xs text-[var(--fg)] leading-relaxed"
-                        dangerouslySetInnerHTML={{
-                          __html: transformImagePath(q.analysis),
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          })()}
+          {detailQuestion && (
+            <QuestionModal questionId={detailQuestion} onClose={() => setDetailQuestion(null)} />
+          )}
 
         </div>
 

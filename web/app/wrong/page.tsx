@@ -8,6 +8,7 @@
 import Link from "next/link";
 import { onSoftRefresh } from "../lib/soft-refresh";
 import EmptyState from "../components/EmptyState";
+import ConfirmDialog from "../components/ConfirmDialog";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   loadWrongEntries,
@@ -48,6 +49,7 @@ export default function WrongPage() {
   const [error, setError] = useState<string | null>(null);
   const [activeModule, setActiveModule] = useState<string | null>(null);
   const [drillId, setDrillId] = useState<number | null>(null);
+  const [clearAsk, setClearAsk] = useState(false);
 
   const loadAll = useCallback(async () => {
     setLoading(true);
@@ -254,17 +256,27 @@ export default function WrongPage() {
   // ───── 分类总览（默认：只展示分类，不展示题目） ─────
   return (
     <div className="space-y-4">
+      <ConfirmDialog
+        open={clearAsk}
+        danger
+        title="清空全部错题？"
+        desc={`将删除 ${totalQuestions} 道错题记录，此操作不可撤销`}
+        confirmText="确认清空"
+        cancelText="再想想"
+        onConfirm={() => {
+          clearWrong();
+          setEntries([]);
+          setDetails(new Map());
+          setClearAsk(false);
+        }}
+        onCancel={() => setClearAsk(false)}
+      />
+
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold text-[var(--fg)]">错题本</h1>
         {totalQuestions > 0 && (
           <button
-            onClick={() => {
-              if (confirm("确定清空全部错题记录？此操作不可撤销。")) {
-                clearWrong();
-                setEntries([]);
-                setDetails(new Map());
-              }
-            }}
+            onClick={() => setClearAsk(true)}
             className="flex h-9 items-center gap-1.5 rounded-xl border px-3 text-[12px] font-bold"
             style={{
               borderColor: "rgba(220,38,38,.35)",
