@@ -205,12 +205,12 @@ export default function QuestionCard({
             setFav(next);
           }}
           aria-label={fav ? "取消收藏" : "收藏题目"}
-          className="ml-auto flex h-8 shrink-0 items-center gap-1 rounded-lg border px-2 text-[11px] font-bold"
-          style={fav
-            ? { borderColor: "rgba(245,194,107,.9)", background: "#FFF7E6", color: "#B45309" }
-            : { borderColor: "var(--line)", background: "var(--surface)", color: "var(--fg-muted)" }}
+          className="ml-auto flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-transform active:scale-90"
+          style={{ color: fav ? "#F59E0B" : "var(--fg-muted)" }}
         >
-          {fav ? "★ 已收藏" : "☆ 收藏"}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill={fav ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.8">
+            <path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.6 9.7l5.8-.8z" strokeLinejoin="round" />
+          </svg>
         </button>
       </div>
 

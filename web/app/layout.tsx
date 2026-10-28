@@ -15,6 +15,7 @@ import PullToRefresh from "./components/PullToRefresh";
 import BackBar from "./components/BackBar";
 import AutoBoost from "./components/AutoBoost";
 import ThemeInit from "./components/ThemeInit";
+import BackHandler from "./components/BackHandler";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -50,6 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <BootSplash />
         <ThemeInit />
+        <BackHandler />
         <AutoBoost />
         <RippleLayer />
         <PullToRefresh />

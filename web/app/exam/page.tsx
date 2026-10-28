@@ -204,6 +204,15 @@ function ExamPageContent() {
 
 
   useEffect(() => onSoftRefresh(fetchPapers), [fetchPapers]);
+  // 硬件返回键：弹本页的退出确认，而不是直接跳出
+  useEffect(() => {
+    (window as unknown as { __xcPageBack?: () => boolean }).__xcPageBack = () => {
+      setExitAsk(true);
+      return true;
+    };
+    return () => { delete (window as unknown as { __xcPageBack?: () => boolean }).__xcPageBack; };
+  }, []);
+
   useEffect(() => {
     fetchPapers();
   }, [fetchPapers]);

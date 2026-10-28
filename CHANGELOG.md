@@ -17,6 +17,28 @@
 
 ---
 
+## [1.9.3] 2026-10-28
+
+### 修复
+- **返回键任何页面都退出软件**（1.9.2 引入的回归）
+  - 原因：Next.js 客户端路由不会产生 WebView 历史，`webView.canGoBack()` 恒为 false，原逻辑一律掉进「退出」分支
+  - 修复：新增 `BackHandler`（`app/components/BackHandler.tsx`）在 JS 层做路由守卫，原生只调用 `window.__xcBack()`
+    - 首页 `/` → 返回 false，交给原生「再按一次退出」
+    - 一级 Tab（`/practice` `/exam` `/wrong` `/me`）→ 回首页
+    - 二级页（`/daily` `/review` `/favorites` `/settings` `/analyze` `/knowledge` `/about` `/search` `/question`）→ 退栈，退不了回首页
+    - 做题三页（专练/今日练习/考试）注册 `__xcPageBack`，硬件返回先弹本页「还没做完哦」确认框
+  - 涉及：`web/app/components/BackHandler.tsx`（新增）、`web/app/layout.tsx`、`web/app/practice/page.tsx`、`web/app/daily/page.tsx`、`web/app/exam/page.tsx`、`android/.../MainActivity.java`
+- **首页「开始 10 题」点击无反应**
+  - 原因：整卡原先用 `window.location.href = "/daily"` 跳转，在 Capacitor 里不可靠
+  - 修复：改用 `router.push("/daily")`，主按钮改为独立 `<button>`（带按压反馈，可点区域更大）
+- **收藏按钮过大**：改为题干右上角一个 28×28 的五角星图标（收藏后变实心琥珀色），不再占用整行文字按钮
+
+### 验证
+- 返回守卫：首页返回=false、`/daily` 返回=true 且回到首页、`/me` 返回=true 且回首页 ✓
+- 今日练习：点击主按钮跳转 `/daily/` ✓
+- 收藏：星级按钮 28×28，点击切换空心/实心 ✓
+- 做题页硬件返回：弹出「还没做完哦」确认框 ✓（截图）
+
 ## [1.9.2] 2026-10-28
 
 ### 修复

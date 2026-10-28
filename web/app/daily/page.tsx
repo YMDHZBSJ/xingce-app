@@ -62,6 +62,15 @@ export default function DailyPage() {
   const running = useRef(true);
 
   // 计时
+  // 硬件返回键：弹本页的退出确认，而不是直接跳出
+  useEffect(() => {
+    (window as unknown as { __xcPageBack?: () => boolean }).__xcPageBack = () => {
+      setExitAsk(true);
+      return true;
+    };
+    return () => { delete (window as unknown as { __xcPageBack?: () => boolean }).__xcPageBack; };
+  }, []);
+
   useEffect(() => {
     const t = setInterval(() => {
       if (!running.current || phase !== "quiz") return;

@@ -12,6 +12,7 @@ import StreakDots from "./components/StreakDots";
 import Sparkline from "./components/Sparkline";
 import { loadHistory, todayCount } from "./lib/history";
 import { onSoftRefresh } from "./lib/soft-refresh";
+import { useRouter } from "next/navigation";
 import { moduleStyle } from "./lib/module-icons";
 import { loadSettings } from "./lib/settings";
 import { getCountdown, type CountdownInfo } from "./lib/exam-countdown";
@@ -49,6 +50,7 @@ export default function Home() {
   const [dailyDone, setDailyDone] = useState(false);
   const [goal, setGoal] = useState(20);
   const [cd, setCd] = useState<CountdownInfo | null>(null);
+  const router = useRouter();
   const [total, setTotal] = useState(22298);
   const [tip, setTip] = useState<DailyTip>({ text: TIPS[0] });
   const [moduleProgress, setModuleProgress] = useState<{ module: string; done: number; total: number }[]>([]);
@@ -214,7 +216,7 @@ export default function Home() {
 
       {/* 今日练习 */}
       <div
-        onClick={() => { window.location.href = "/daily"; }}
+        onClick={() => { router.push("/daily"); }}
         className="relative mt-3 block cursor-pointer overflow-hidden rounded-[26px] p-5 text-white xc-press"
         style={{ background: "var(--grad)", boxShadow: "var(--shadow-lg)" }}
       >
@@ -228,9 +230,14 @@ export default function Home() {
             {daily ? "上次的进度还在，接着做完吧" : dailyDone ? "今日目标已完成，还想练就再来一组" : "全模块随机抽题 · 计时 · 独立计分"}
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2.5 text-[14px] font-extrabold text-[#E94560]">
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); router.push("/daily"); }}
+              className="inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-3 text-[15px] font-extrabold text-[#E94560] shadow-sm active:scale-95"
+              style={{ transition: "transform .12s ease" }}
+            >
               {daily ? "继续练习 →" : dailyDone ? "再来 10 题 →" : "开始 10 题 →"}
-            </span>
+            </button>
             <Link
               href="/daily?count=3"
               className="rounded-full px-3.5 py-2 text-[12.5px] font-bold text-white"

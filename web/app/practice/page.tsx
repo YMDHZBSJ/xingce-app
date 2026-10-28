@@ -101,6 +101,15 @@ export default function PracticePage() {
     return () => setImmersive(false);
   }, [phase]);
 
+  // 硬件返回键：优先弹「还没做完哦」，避免误退出丢进度
+  useEffect(() => {
+    (window as unknown as { __xcPageBack?: () => boolean }).__xcPageBack = () => {
+      setExitAsk("practice");
+      return true;
+    };
+    return () => { delete (window as unknown as { __xcPageBack?: () => boolean }).__xcPageBack; };
+  }, []);
+
   const answeredRef = useMemo(() => ({ current: false }), []);
   useEffect(() => {
     try {

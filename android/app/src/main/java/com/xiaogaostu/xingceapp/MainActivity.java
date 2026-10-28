@@ -9,12 +9,9 @@ import com.getcapacitor.BridgeActivity;
  * 行测题库 · 作者 xiaogaostu
  * © 2026 xiaogaostu. All Rights Reserved.
  *
- * 返回键策略：
- * 1) 首页（第一层）：清空 WebView 历史 + 第一次提示「再按一次退出」，2 秒内再按退出
- * 2) 其他页面：优先在应用内回退；回退不了同样走退出逻辑
- *
- * 修复：之前停在首页手势返回会退回上一个页面（如「我的」），
- * 原因是 WebView 历史里仍留着首页之前的记录。现在到首页即 clearHistory()。
+ * 返回键策略（由页面内的 BackHandler 决定去哪里）：
+ * 1) 调用 window.__xcBack()：返回 true 表示页面已处理（已跳转），App 不退出
+ * 2) 返回 false（当前在首页）或不可用 → 第一次提示「再按一次退出」，2 秒内再按则退出
  */
 public class MainActivity extends BridgeActivity {
 
@@ -30,34 +27,13 @@ public class MainActivity extends BridgeActivity {
         }
 
         webView.evaluateJavascript(
-            "(function(){try{var p=location.pathname.replace(/\\\\/+$/,'');return p||'/';}catch(e){return '/';}})()",
+            "(function(){try{return (typeof window.__xcBack==='function') ? String(window.__xcBack()) : 'false';}catch(e){return 'false';}})()",
             value -> {
-                String path = value == null ? "/" : value.replace("\"", "").trim();
-                boolean atHome = path.isEmpty()
-                        || "/".equals(path)
-                        || "/index.html".equals(path)
-                        || "null".equals(path);
-
-                if (atHome) {
-                    // 首页是应用第一层：清掉历史，保证从此再按返回只有「退出」一条路
-                    if (webView.canGoBack()) {
-                        webView.clearHistory();
-                    }
-                    long now = System.currentTimeMillis();
-                    if (now - lastBackTime < EXIT_INTERVAL) {
-                        finish();
-                    } else {
-                        lastBackTime = now;
-                        Toast.makeText(MainActivity.this, "再按一次退出", Toast.LENGTH_SHORT).show();
-                    }
-                    return;
+                String v = value == null ? "false" : value.replace("\"", "").trim();
+                if ("true".equals(v)) {
+                    return; // 页面已处理（返回上一级 / 回首页），不退出
                 }
-
-                if (webView.canGoBack()) {
-                    webView.goBack();
-                    return;
-                }
-
+                // 首页：连按两次退出
                 long now = System.currentTimeMillis();
                 if (now - lastBackTime < EXIT_INTERVAL) {
                     finish();
