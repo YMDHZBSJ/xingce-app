@@ -55,6 +55,8 @@ export default function DailyPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [phase, setPhase] = useState<"quiz" | "result">("quiz");
+  const phaseRef = useRef<"quiz" | "result">("quiz");
+  phaseRef.current = phase;
   const [totalSec, setTotalSec] = useState(0);
   const [qSec, setQSec] = useState(0);
   const [exitAsk, setExitAsk] = useState(false);
@@ -65,8 +67,8 @@ export default function DailyPage() {
   // 硬件返回键：弹本页的退出确认，而不是直接跳出
   useEffect(() => {
     (window as unknown as { __xcPageBack?: () => boolean }).__xcPageBack = () => {
-      setExitAsk(true);
-      return true;
+      if (phaseRef.current === "quiz") { setExitAsk(true); return true; }
+      return false;
     };
     return () => { delete (window as unknown as { __xcPageBack?: () => boolean }).__xcPageBack; };
   }, []);

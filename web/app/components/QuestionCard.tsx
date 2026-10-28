@@ -172,9 +172,27 @@ export default function QuestionCard({
   };
 
   return (
-    <div className="card p-4 mb-4">
+    <div className="card relative p-4 mb-4">
+      {/* 收藏：贴在卡片右上角，不占布局 */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          const next = toggleFavorite({
+            id: question.id, module: question.module, qtype: question.qtype, stem: question.stem,
+          });
+          setFav(next);
+        }}
+        aria-label={fav ? "取消收藏" : "收藏题目"}
+        className="absolute right-2.5 top-2.5 z-10 flex h-8 w-8 items-center justify-center rounded-full transition-transform active:scale-90"
+        style={{ color: fav ? "#F59E0B" : "var(--fg-muted)" }}
+      >
+        <svg width="17" height="17" viewBox="0 0 24 24" fill={fav ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.6">
+          <path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.6 9.7l5.8-.8z" strokeLinejoin="round" />
+        </svg>
+      </button>
+
       {/* Header: module, qtype, year, region */}
-      <div className="flex flex-wrap items-center gap-2 mb-3 text-xs">
+      <div className="mb-3 flex flex-wrap items-center gap-2 pr-9 text-xs">
         <span className="px-2 py-0.5 rounded bg-[var(--chip)] text-[var(--chip-fg)]">
           {question.module}
         </span>
@@ -196,22 +214,6 @@ export default function QuestionCard({
             {question.paper_name}
           </span>
         )}
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            const next = toggleFavorite({
-              id: question.id, module: question.module, qtype: question.qtype, stem: question.stem,
-            });
-            setFav(next);
-          }}
-          aria-label={fav ? "取消收藏" : "收藏题目"}
-          className="ml-auto flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-transform active:scale-90"
-          style={{ color: fav ? "#F59E0B" : "var(--fg-muted)" }}
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill={fav ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.8">
-            <path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.6 9.7l5.8-.8z" strokeLinejoin="round" />
-          </svg>
-        </button>
       </div>
 
       {/* Stem */}

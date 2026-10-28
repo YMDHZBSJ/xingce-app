@@ -101,11 +101,18 @@ export default function PracticePage() {
     return () => setImmersive(false);
   }, [phase]);
 
-  // 硬件返回键：优先弹「还没做完哦」，避免误退出丢进度
+  const phaseRef = useRef(phase);
+  phaseRef.current = phase;
+
+  // 硬件返回键：做题中弹「还没做完哦」，其余状态交给路由守卫
   useEffect(() => {
     (window as unknown as { __xcPageBack?: () => boolean }).__xcPageBack = () => {
-      setExitAsk("practice");
-      return true;
+      // 只有做题中才拦截（弹「还没做完哦」）；报告/选择页交给路由守卫
+      if (phaseRef.current === "practice") {
+        setExitAsk("practice");
+        return true;
+      }
+      return false;
     };
     return () => { delete (window as unknown as { __xcPageBack?: () => boolean }).__xcPageBack; };
   }, []);

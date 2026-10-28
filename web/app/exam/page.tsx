@@ -143,6 +143,7 @@ function ExamPageContent() {
   const initialYear = searchParams.get("year") || "";
 
   const [phase, setPhase] = useState<"select" | "exam" | "result">("select");
+  const phaseRef = useRef<"select" | "exam" | "result">("select");
   const [papers, setPapers] = useState<Paper[]>([]);
   const [years, setYears] = useState<string[]>([]);
   const [selectedPaper, setSelectedPaper] = useState<Paper | null>(null);
@@ -207,8 +208,8 @@ function ExamPageContent() {
   // 硬件返回键：弹本页的退出确认，而不是直接跳出
   useEffect(() => {
     (window as unknown as { __xcPageBack?: () => boolean }).__xcPageBack = () => {
-      setExitAsk(true);
-      return true;
+      if (phaseRef.current === "exam") { setExitAsk(true); return true; }
+      return false;
     };
     return () => { delete (window as unknown as { __xcPageBack?: () => boolean }).__xcPageBack; };
   }, []);
@@ -397,6 +398,7 @@ function ExamPageContent() {
 
   const [marked, setMarked] = useState<Set<number>>(new Set());
   const [exitAsk, setExitAsk] = useState(false);
+  phaseRef.current = phase;
   const [poster, setPoster] = useState(false);
   const [timeAlert, setTimeAlert] = useState<null | "1h" | "15m" | "5m">(null);
   const alertTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
