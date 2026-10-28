@@ -1,133 +1,88 @@
-# 行测真题库 · 安卓离线版
+# 行测题库 · Android
 
-Capacitor 壳 + 静态前端 + 内置近 5 年真题（2022–2026，22,298 题）。
-完全离线可用，无需服务器。
+完全离线的公务员行测刷题 App。22,298 道真题（2022–2026）/ 194 套卷 / 106 考点，**无广告、无账号、断网可用**。
 
-## 已实现
+作者：xiaogaostu
 
-- 首页：今日一练（随机 10 题）、快速入口、年份标签
-- 题型专练：按模块/题型随机组卷（5/10/20/50/100 题），计时、查看答案解析
-- 模拟考试：194 套真题卷列表 → 120 分钟计时、题号网格、交卷报告
-- 错题本：答错自动记录（含题目快照）、重做、移除、清空
-- 智能搜索：本地全文扫描（37–173ms）
-- 设置：字号三档、浅色/深色主题
-- 底部 Tab 导航，适配手机安全区
+## 下载
 
-## 数据
+到 [Releases](https://github.com/YMDHZBSJ/xingce-app/releases) 下载最新 APK：
+
+| 版本 | 体积 | 说明 |
+|---|---|---|
+| `xingce-app-vXX-full.apk` | ~116 MB | 含全部 12,238 张题目配图，推荐 |
+| `xingce-app-vXX-lite.apk` | ~69 MB | 不含判断推理配图，便于微信传输 |
+
+安装前建议先卸载旧版。应用为 debug 签名，仅供个人学习使用。
+
+## 功能
+
+**做题**
+- 今日练习（独立模块）：随机 10 题，或「只有 3 分钟」的 3 题轻量模式；交卷出报告，完成后显示「再来 10 题」
+- 题型专练：按模块 / 题型自选题量，支持左右滑动切题
+- 模拟考试：按套卷计时，倒计时剩 1 小时 / 15 分钟 / 5 分钟时变色抖动提醒
+- 单题计时 + 与上次用时对比、标记存疑、题号悬浮窗
+
+**看题**
+- 长按题干/材料 → 大字阅读层；点击图片 → 全屏，双击放大 2 倍、拖动平移、双指缩放
+
+**复盘**
+- 错题本、全局收藏（任意页面可收藏，我的 → 收藏题目）
+- 错因标签：概念不清 / 审题失误 / 计算失误 / 时间不够 / 蒙的
+- 今日复习：间隔重复，5 分钟 → 1 天 → 3 天 → 7 天，连对 3 次视为掌握
+- 学习分析：错因画像（各类错因占比 + 提分建议）、节奏诊断（耗时黑洞 / 秒答陷阱）、做题来源分布
+- 考点图谱：真题按年份纵向排列，看同一考点五年命题演变
+
+**其他**
+- 成绩海报：本地 canvas 生成，文案可自己编辑，仅显示日期（专练与考试均支持）
+- AI 分析（本地规则）：考点分析 / 答题思路 / 易错避坑 / 同类题
+- 个人设置：每日目标题数（10/20/30/50）、浅色 / 深色 / 跟随系统
+- 每次启动弹出激励短句（同一小时最多一次）
+
+## 技术栈
+
+- **前端**：Next.js 16（App Router）+ React 19 + TypeScript + Tailwind CSS v4，`output: "export"` 静态导出
+- **数据层**：`public/local-api.js` 在客户端拦截 `/api/*`，直接读本地 JSON —— 零后端、零网络请求
+- **安卓壳**：Capacitor 8（compileSdk 34），WebView 内跑静态站点，资源全部打包进 APK
+- **存储**：localStorage（作答记录、错题、收藏、复习队列、设置）
+- **工具**：Playwright 端到端回归脚本（`tests/e2e-full.js`）
+
+## 目录结构
 
 ```
-www/data/
-├── manifest.json      模块清单
-├── papers.json        194 套试卷索引（含所属模块，避免全量加载）
-└── <模块>.json        6 个模块的全部题目（共 ~52MB 明文，APK 内 zip 压缩后 ~11MB）
+web/                 Next.js 前端（唯一源码）
+  app/               页面：首页 / 今日练习 / 专练 / 模考 / 错题 / 收藏 / 复习 / 分析 / 考点 / 我的 / 设置 / 关于
+  app/components/    组件：题目卡、计时、悬浮层、放大查看、确认弹窗、海报等
+  app/lib/           逻辑：历史、错题、收藏、复习队列、错因、节奏诊断、设置
+  public/data/       题库 JSON（22,298 题 / 考点 / 卷子 / 统计）
+  public/local-api.js 本地 API 拦截器
+android/             Capacitor 安卓工程（含返回键连按两次退出）
+tests/e2e-full.js    端到端回归（15 项）
+CHANGELOG.md         版本变更记录
+video/               宣传片制作工作区（分镜源码 + 首帧）
 ```
 
-题库由 `xingce-tools` 的 `data/questions.db` 导出（近 5 年）。
-重新导出：见 `scripts/export-data.py`（若不存在，按 README 末尾命令重跑）。
+> **注意**：`web/public/images/`（122 MB 题目配图）不在仓库中。本地构建前需要从题库源仓库
+> [ERRRC/xingcezhenti](https://github.com/ERRRC/xingcezhenti) 复制 `90-图片/` 到 `web/public/images/`。
 
-## 构建
+## 本地构建
 
 ```bash
-# 环境（一次性）
-brew install openjdk@17
-export JAVA_HOME=/opt/homebrew/Cellar/openjdk@17/17.0.21.0.2/libexec/openjdk.jdk/Contents/Home
-export ANDROID_HOME=~/Library/Android/sdk
-# JDK/SDK 装好后
+cd web
 npm install
+npx next build            # 产出 web/out
+
+cd ..
 npx cap sync android
-cd android && ./gradlew assembleDebug
-# 产物：android/app/build/outputs/apk/debug/app-debug.apk
+cd android
+./gradlew assembleDebug   # 产出 android/app/build/outputs/apk/debug/app-debug.apk
 ```
 
-## 本机构建时踩过的坑（已在仓库内修好）
+## 数据来源
 
-1. **Capacitor 8 默认用 Java 21 编译** → 本机 JDK 17 报「无效的源发行版：21」
-   - 已在 `app/build.gradle` 末尾追加 `JavaVersion.VERSION_17` 覆盖（`capacitor.build.gradle` 是每次 sync 重新生成的，不能改那里）
-   - 同时把 `node_modules/@capacitor/android/capacitor/build.gradle` 的 21 改成 17（`npm install` 后需重跑）
-2. **Kotlin stdlib 重复类** → 在根 `build.gradle` 的 `allprojects` 里排除 `kotlin-stdlib-jdk7/jdk8`
-3. **compileSdk 36 需要更高 JDK** → `variables.gradle` 里降到 34，并把 androidx 版本降到兼容 API 34 的版本
-4. **`.gz` 资源会被 Android 重新解包改名** → 数据改为直接分发 `.json`（APK 是 zip，体积差别不大）
+真题与解析来自 [ERRRC/xingcezhenti](https://github.com/ERRRC/xingcezhenti)（2016–2026 行测真题库），
+本应用取其 2022–2026 部分并做结构化处理。题库版权归原整理者，仅用于个人学习。
 
-## 已知限制
+## 许可
 
-- **图片暂缺**：35% 题目（7,802 题）含图片，当前显示「[图片]」占位。下一步可按模块打包图片（资料分析+数量关系约 34MB）。
-- 仅含近 5 年真题（2022–2026）。
-- 未做云同步（App 版为纯本地）。
-
-## 下一步建议
-
-1. 图片包：先打「资料分析 + 数量关系」（34MB，做题刚需图表）
-2. 年度增量：新增年份单独出包，启动时按需加载
-3. 包名/图标/版本号正式化，做 release 签名
-
----
-
-## 两个发布版本
-
-| 版本 | 体积 | 图片覆盖 | 适用 |
-|---|---|---|---|
-| `xingce-app-v2-lite.apk` | 62MB | 资料分析 / 数量关系 / 常识判断 / 言语 / 政治（10,655 张） | 微信可直接发（<100MB） |
-| `xingce-app-v2-full.apk` | 109MB | 全部模块（12,238 张，含判断推理·图形推理） | 网盘 / 数据线安装 |
-
-精简版中「图形推理」题图片显示 `[图片暂缺]`，其余模块完整。
-
-## 图片说明
-
-- 图片来源：`xingce-tools` 的 `xingcezhenti/90-图片/`，按题目 JSON 里的 `../90-图片/...` 引用复制到 `www/images/`。
-- 全部模块去重后 12,238 张 / 90MB；中位体积约 1KB（多为公式/表格小图）。
-- **不要转成 JPEG**：实测小图转 JPEG 反而变大 40~160%，PNG 才是最优。
-- APK 内路径：`assets/public/images/...`，运行时代码把 `../90-图片/` 重写为 `images/`。
-- 图片加载失败时自动降级为 `[图片暂缺]` 占位，不会出现破图。
-
-## 已知限制
-
-- 仅含近 5 年真题（2022–2026）。
-- 未做云同步（App 版为纯本地）。
-- 精简版缺图形推理图片（见上）。
-
----
-
-## 应用名与图标
-
-- 应用名：**行测题库**（`values/strings.xml` 的 `app_name` / `title_activity_main`、`capacitor.config.json` 的 `appName`）
-- 图标：`图标.png`（用户提供的原始图）→ 自动裁掉白边与"豆包 AI 生成"水印 → 全出血母图 `/tmp/icon/art.png`
-- 生成尺寸：`mipmap-{mdpi,hdpi,xhdpi,xxhdpi,xxxhdpi}` 的 `ic_launcher.png` / `ic_launcher_round.png` / `ic_launcher_foreground.png`
-- 自适应图标底色：`values/ic_launcher_background.xml` = `#F4701E`
-- 启动图：`drawable*/splash.png`（白底 + 居中图标徽章）
-
-重新生成图标的步骤：把新图命名为 `图标.png` 放项目根目录，用 `scripts/make-icon`（若存在）或按 README 手工流程裁切后覆盖各 mipmap 目录。
-
----
-
-## 包名
-
-- `applicationId` / `namespace`：**com.xiaogaostu.xingceapp**
-- Java 包路径：`android/app/src/main/java/com/xiaogaostu/xingceapp/MainActivity.java`
-- `capacitor.config.json` 的 `appId` 同步为 `com.xiaogaostu.xingceapp`
-- `strings.xml` 的 `package_name` / `custom_url_scheme` 同步更新
-
-改包名要同时改：`app/build.gradle`（namespace + applicationId）、Java 包目录与 `package` 声明、
-`strings.xml`、`capacitor.config.json`；改完 `npx cap sync android` 让 `assets/capacitor.config.json` 同步。
-
-注意：`applicationId` 变了等于新应用，**旧的 xingce-app 不会自动覆盖**，需要手动卸载旧版。
-
----
-
-## 变更日志（CHANGELOG）
-
-每次修改代码/界面后，必须在项目根目录的 `CHANGELOG.md` 追加一条记录，格式：
-
-```md
-## [版本号] YYYY-MM-DD
-
-### 变更类型：新增 / 修复 / 优化 / 移除
-- 具体改动（涉及文件）
-
-### 验证
-- 验证方式与结果
-```
-
-约定：
-- **版本号同步递增**（`web/app/lib/author.ts` 的 `version` 与 CHANGELOG 标题保持一致）
-- CHANGELOG **只保存在本机项目目录**，不放入 `web/public/`，因此不会被打包进 `out/` 与 APK
-- 检查命令：`ls web/out | grep -i changelog`（应无输出）
+见 [LICENSE](LICENSE)。题库数据版权归原整理者，应用代码版权归作者 xiaogaostu。
