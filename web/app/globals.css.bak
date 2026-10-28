@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+/* ── 浅色（白底黑字）主题 ───────────────────────────────── */
+:root {
+  --bg: #f4f6fa;          /* 页面底色 */
+  --surface: #ffffff;     /* 卡片/面板 */
+  --line: #dfe5ef;        /* 分隔线/边框 */
+  --track: #e8ecf4;       /* 进度条轨道、骨架 */
+  --chip: #eef2f9;        /* 标签底色 */
+  --chip-fg: #24304a;     /* 标签文字 */
+  --fg: #17202f;          /* 主文字 */
+  --fg-muted: #55637d;    /* 次要文字 */
+  --accent: #e94560;      /* 强调描边/悬停 */
+  --accent-text: #bf2440; /* 强调文字（白底可读） */
+  --accent-fill: #c9304b; /* 实心按钮底色 */
+  --ok: #0f7a5a;
+  --ok-bg: #e4f5ee;
+  --ok-fg: #0b5f46;
+  --ok-fill: #0f7a5a;
+  --bad-bg: #fde8ec;
+  --bad-fg: #8f1d33;
+
+  /* 兼容旧变量名 */
+  --background: var(--bg);
+  --foreground: var(--fg);
+  --primary: var(--chip);
+  --card-bg: var(--surface);
+  --card-border: var(--line);
+  --muted: var(--fg-muted);
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-primary: var(--chip);
+  --color-accent: var(--accent);
+  --color-card-bg: var(--surface);
+  --color-card-border: var(--line);
+  --color-muted: var(--fg-muted);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: #c9d3e4;
+  border-radius: 6px;
+  border: 2px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* 卡片 */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(23, 32, 47, 0.04),
+    0 6px 16px -12px rgba(23, 32, 47, 0.18);
+}
+
+/* 考点链接 */
+.kp-link {
+  color: var(--accent-text);
+  text-decoration: none;
+  cursor: pointer;
+  border-bottom: 1px dashed var(--accent-text);
+}
+.kp-link:hover {
+  opacity: 0.8;
+}
+
+/* 题干/解析里的 HTML */
+.question-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 8px 0;
+}
+.question-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 8px 0;
+}
+.question-content td,
+.question-content th {
+  border: 1px solid var(--line);
+  padding: 4px 8px;
+}
+.question-content sup {
+  font-size: 0.75em;
+  vertical-align: super;
+}
+.question-content sub {
+  font-size: 0.75em;
+  vertical-align: sub;
+}
+
+/* 图谱节点呼吸 */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+.graph-node-active {
+  animation: pulse 2s infinite;
+}
+
+.transition-smooth {
+  transition: all 0.2s ease-in-out;
+}
+
+/* 浏览器原生表面也跟着主题走 */
+::selection {
+  background: rgba(233, 69, 96, 0.18);
+  color: var(--fg);
+}
+
+* {
+  caret-color: var(--accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.tabular-nums,
+.timer {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

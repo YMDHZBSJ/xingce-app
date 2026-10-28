@@ -1,0 +1,48 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="tokens.css">
+<style>
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:6px}
+.numbox{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.numbox .n{height:46px;border-radius:14px;background:#fff;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:var(--fg-2)}
+.numbox .n.on{background:var(--grad);color:#fff;border:0;box-shadow:0 8px 18px rgba(233,69,96,.26)}
+.sticky{position:absolute;left:18px;right:18px;bottom:88px}
+</style></head><body><div class="screen">
+<div class="status"><span>9:41</span><span>题型专练</span><span>100%</span></div>
+<div class="scroll">
+  <div class="h1">题型专练</div>
+  <div class="sub">选定范围，系统随机组卷</div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="card-t">选择模块</div>
+    <div class="chips">
+      <div class="pill on">全部模块</div><div class="pill">言语</div><div class="pill">判断</div>
+      <div class="pill">资料</div><div class="pill">数量</div><div class="pill">常识</div><div class="pill">政治</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="card-t">选择题型</div>
+    <div class="chips">
+      <div class="pill on">全部题型</div><div class="pill">图形推理</div><div class="pill">定义判断</div>
+      <div class="pill">逻辑判断</div><div class="pill">类比推理</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-t">本次题量</div>
+    <div class="numbox">
+      <div class="n">5</div><div class="n">10</div><div class="n on">20</div><div class="n">50</div>
+    </div>
+    <div style="margin-top:12px;font-size:12px;color:var(--fg-muted);line-height:1.7">
+      作答后需点「查看答案」才判分；每题显示用时，并与上次做该题的用时对比（更快变绿、更慢变红）。
+    </div>
+  </div>
+</div>
+<div class="sticky"><div class="btn">开始练习 · 20 题</div></div>
+<div class="tabbar">
+  <div class="tab"><div class="ico">🏠</div>首页</div>
+  <div class="tab"><div class="ico">🔍</div>题库</div>
+  <div class="tab on"><div class="ico">✏️</div>专练</div>
+  <div class="tab"><div class="ico">📝</div>模考</div>
+  <div class="tab"><div class="ico">👤</div>我的</div>
+</div>
+</div></body></html>

@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<title>行测题库 · 分镜首帧</title>
+<style>
+  :root{
+    --orange:#F4701E; --red:#E94560; --bg1:#FDF7F2; --bg2:#FCEFE8;
+    --fg:#2A1B14; --fg2:#5C463C; --muted:#9C8B80; --line:#EFE2D8;
+    --grad:linear-gradient(135deg,#F4701E 0%,#E94560 100%);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+  body{background:#111;font-family:"PingFang SC","Hiragino Sans GB",sans-serif;display:flex;flex-wrap:wrap;gap:24px;padding:24px}
+  .scene{
+    width:1080px;height:1920px;position:relative;overflow:hidden;flex:none;
+    background:linear-gradient(180deg,var(--bg1) 0%,var(--bg2) 100%);
+    color:var(--fg);
+  }
+  .glow{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55}
+  .g1{width:760px;height:760px;background:rgba(244,112,30,.38);left:-200px;top:-220px}
+  .g2{width:700px;height:700px;background:rgba(233,69,96,.30);right:-220px;top:220px}
+
+  /* 通用组件 */
+  .phone{
+    position:absolute;left:50%;transform:translateX(-50%);
+    width:820px;height:1560px;border-radius:56px;background:#fff;
+    box-shadow:0 40px 90px -30px rgba(120,60,30,.45),0 0 0 10px rgba(42,27,20,.9),0 0 0 12px rgba(255,255,255,.15);
+    overflow:hidden;
+  }
+  .phone-notch{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:150px;height:26px;border-radius:20px;background:#2A1B14;opacity:.85;z-index:5}
+  .screen{position:absolute;inset:0;padding:64px 40px 40px;display:flex;flex-direction:column;gap:22px}
+  .topbar{display:flex;align-items:center;justify-content:space-between}
+  .avatar{width:74px;height:74px;border-radius:22px;background:var(--grad);display:flex;align-items:center;justify-content:center;color:#fff;font-size:34px;font-weight:800}
+  .badge{padding:8px 20px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:20px;color:var(--muted)}
+  .h1{font-size:56px;font-weight:800;letter-spacing:-1px;line-height:1.15}
+  .h2{font-size:40px;font-weight:800;line-height:1.2}
+  .sub{font-size:24px;color:var(--muted);line-height:1.5}
+  .card{background:#fff;border-radius:34px;padding:34px;box-shadow:0 18px 40px -22px rgba(120,60,30,.35);border:1px solid rgba(239,226,216,.9)}
+  .card-grad{background:var(--grad);color:#fff;border-radius:34px;padding:38px;box-shadow:0 26px 50px -24px rgba(233,69,96,.75);position:relative;overflow:hidden}
+  .card-grad::after{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:rgba(255,255,255,.16);right:-140px;top:-160px}
+  .pill{display:inline-flex;align-items:center;gap:10px;padding:14px 30px;border-radius:999px;background:#fff;color:#E94560;font-size:28px;font-weight:800}
+  .tag{padding:8px 18px;border-radius:12px;background:#FDF1EA;border:1px solid #F6DFD2;font-size:20px;color:#8A6A58;font-weight:600}
+  .row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .btn{background:var(--grad);color:#fff;border-radius:20px;padding:18px 30px;font-size:26px;font-weight:800;text-align:center}
+  .bar{height:16px;border-radius:999px;background:#F3E7DE;overflow:hidden}
+  .bar>i{display:block;height:100%;border-radius:999px;background:var(--grad)}
+  .kv{display:flex;justify-content:space-between;font-size:22px;color:var(--fg2)}
+  .big-num{font-size:150px;font-weight:900;line-height:1;letter-spacing:-4px}
+  .caption{
+    position:absolute;left:0;right:0;bottom:110px;text-align:center;
+    font-size:52px;font-weight:900;line-height:1.35;letter-spacing:.5px;
+    color:#fff;text-shadow:0 8px 30px rgba(0,0,0,.45);padding:0 70px;
+  }
+  .caption.plate{color:#2A1B14;text-shadow:none}
+  .caption.plate span.txt{
+    display:inline-block;padding:26px 44px;border-radius:30px;
+    background:rgba(255,255,255,.92);border:1px solid rgba(239,226,216,.9);
+    box-shadow:0 24px 60px -26px rgba(120,60,30,.45);backdrop-filter:blur(8px);
+  }
+  .caption.plate .hl{color:#E94560}
+  .caption .hl{color:#FFD28A}
+  .safe{position:absolute;inset:0}
+  /* 场景1 钩子 */
+  .s1{background:#120C09}
+  .s1 .q{position:absolute;left:90px;top:520px;font-size:96px;font-weight:900;color:#fff;line-height:1.25;letter-spacing:-2px}
+  .s1 .strike{position:absolute;left:70px;top:800px;width:880px;height:26px;background:var(--grad);border-radius:20px;transform:rotate(-3deg);box-shadow:0 0 40px rgba(244,112,30,.7)}
+  .s1 .kicker{position:absolute;left:94px;top:1180px;font-size:30px;color:rgba(255,255,255,.5);letter-spacing:8px}
+</style></head>
+<body>
+
+<!-- 1 钩子 -->
+<div class="scene s1" id="s1">
+  <div class="glow g2" style="opacity:.35"></div>
+  <div class="q">刷了 2 万道题<br>还是错同一类？</div>
+  <div class="strike"></div>
+  <div class="caption" style="bottom:300px;font-size:34px;font-weight:600;color:rgba(255,255,255,.55)">问题不在题量，在于你从没看清「为什么错」</div>
+</div>
+
+<!-- 2 首页亮相 -->
+<div class="scene" id="s2">
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <div class="phone"><div class="phone-notch"></div>
+    <div class="screen">
+      <div class="topbar"><div class="avatar">📚</div><div class="badge">v1.8.4</div></div>
+      <div class="h1">晚上好，<br>再练一会儿 🎯</div>
+      <div class="sub">近 5 年真题 · 22,298 题 · 已连续 0 天</div>
+      <div class="card-grad">
+        <div style="font-size:22px;letter-spacing:6px;opacity:.9">今 日 练 习</div>
+        <div style="font-size:46px;font-weight:900;margin-top:14px">随机挑战 · 10 题</div>
+        <div style="font-size:22px;opacity:.9;margin-top:12px">全模块随机抽题 · 计时 · 独立计分</div>
+        <div class="pill" style="margin-top:28px">开始 10 题 →</div>
+      </div>
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <div class="h2">今日达成目标</div><div class="badge">还差 20 题</div>
+        </div>
+        <div class="bar" style="margin-top:22px"><i style="width:0%"></i></div>
+      </div>
+      <div class="row" style="gap:18px">
+        <div class="card" style="flex:1;padding:24px">
+          <div style="font-size:22px;color:var(--muted)">判断推理</div>
+          <div class="big-num" style="font-size:64px;margin-top:6px">38%</div>
+          <div class="bar" style="margin-top:14px;height:12px"><i style="width:38%"></i></div>
+        </div>
+        <div class="card" style="flex:1;padding:24px">
+          <div style="font-size:22px;color:var(--muted)">言语理解</div>
+          <div class="big-num" style="font-size:64px;margin-top:6px">52%</div>
+          <div class="bar" style="margin-top:14px;height:12px"><i style="width:52%"></i></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <div class="h2" style="font-size:32px">昨日错题回顾</div><div style="font-size:24px;color:#E94560;font-weight:800">去复习 ›</div>
+        </div>
+        <div class="sub" style="margin-top:10px;font-size:22px">昨天有 6 道错题，2 道还没弄懂</div>
+      </div>
+      <div class="card">
+        <div class="h2" style="font-size:32px">今日建议 · 每天一条</div>
+        <div class="sub" style="margin-top:10px;font-size:22px">片段阅读抓中心句：首尾句、转折词后、结论词后</div>
+      </div>
+    </div>
+  </div>
+  <div class="caption plate"><span class="txt">22,298 道真题<br><span class="hl">全部离线</span>，断网也能刷</span></div>
+</div>
+
+<!-- 3 做题 + 长按放大 -->
+<div class="scene" id="s3">
+  <div class="glow g1"></div>
+  <div class="phone" style="left:50%;transform:translateX(-50%) scale(.86) translateY(-40px)"><div class="phone-notch"></div>
+    <div class="screen">
+      <div class="row" style="justify-content:space-between">
+        <div class="badge">←</div><div class="h2" style="font-size:30px">3 <span style="color:var(--muted);font-weight:600">/ 10</span></div>
+        <div class="badge">交卷</div>
+      </div>
+      <div class="row"><span class="tag">资料分析</span><span class="tag">增长率</span><span class="tag">2025 山东</span></div>
+      <div class="card">
+        <div style="font-size:22px;color:var(--muted);margin-bottom:16px">📖 给定材料</div>
+        <div style="font-size:26px;line-height:1.75">2023 年，邮政行业寄递业务量累计完成 1624.8 亿件，同比增长 16.8%。其中，快递业务量累计完成 1320.7 亿件，同比增长 19.4%……</div>
+        <div style="margin-top:26px;height:300px;border-radius:18px;background:linear-gradient(180deg,#FBF3EC,#F6E8DC);position:relative;overflow:hidden">
+          <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:22px;color:#B79C8A">▥ 图表（点击可放大）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;left:520px;top:1180px;width:480px;border-radius:34px;background:#fff;box-shadow:0 30px 70px -20px rgba(120,60,30,.5);padding:34px">
+    <div style="font-size:22px;color:var(--muted)">题干 · 长按放大</div>
+    <div style="font-size:44px;font-weight:900;line-height:1.35;margin-top:16px;color:var(--fg)">表格看不清？<br>长按就是大字版</div>
+    <div style="margin-top:24px;font-size:24px;line-height:1.8;color:var(--fg2)">字号 18px · 行高 1.9<br>可滚动 · 点空白关闭</div>
+  </div>
+  <div class="caption plate"><span class="txt">看不清表格？<span class="hl">长按放大</span></span></div>
+</div>
+
+<!-- 4 错因面板 -->
+<div class="scene" id="s4">
+  <div class="glow g2"></div>
+  <div class="phone" style="transform:translateX(-50%) translateY(-40px) scale(.9)"><div class="phone-notch"></div>
+    <div class="screen">
+      <div class="h2" style="color:var(--muted);font-size:26px">第 3 题 · 你选了 A</div>
+      <div class="card">
+        <div class="row"><span class="tag">言语理解</span><span class="tag">逻辑填空</span></div>
+        <div style="margin-top:20px;font-size:28px;line-height:1.7">近年来，我国数字经济____，规模稳居世界第二……</div>
+        <div style="margin-top:22px;font-size:26px;color:var(--red);font-weight:800">✗ 答错了</div>
+      </div>
+      <div style="margin-top:auto;background:#fff;border-radius:40px 40px 0 0;padding:34px;margin-left:-40px;margin-right:-40px;margin-bottom:-40px;box-shadow:0 -20px 50px -20px rgba(120,60,30,.4)">
+        <div style="width:90px;height:10px;border-radius:99px;background:#EFE2D8;margin:0 auto 26px"></div>
+        <div class="h2">这道题为什么错？</div>
+        <div class="sub" style="margin-top:8px">标记错因，帮你找出真正的短板</div>
+        <div style="margin-top:24px;display:flex;flex-direction:column;gap:14px">
+          <div class="card" style="padding:18px 24px;display:flex;align-items:center;gap:16px"><span style="font-size:28px">📚</span><div><div style="font-size:26px;font-weight:800">概念不清</div><div style="font-size:20px;color:var(--muted)">知识点本身没记住</div></div></div>
+          <div class="card" style="padding:22px 26px;display:flex;align-items:center;gap:18px;border:2px solid rgba(244,112,30,.45);background:#FDF3EC"><span style="font-size:32px">👀</span><div><div style="font-size:26px;font-weight:800;color:#C2410C">审题失误</div><div style="font-size:20px;color:#B0704A">看错问法或条件</div></div><div style="margin-left:auto;color:var(--orange);font-weight:900;font-size:30px">✓</div></div>
+          <div class="card" style="padding:22px 26px;display:flex;align-items:center;gap:18px"><span style="font-size:32px">🎲</span><div><div style="font-size:26px;font-weight:800">蒙的</div><div style="font-size:20px;color:var(--muted)">完全没思路</div></div></div>
+        </div>
+        <div class="btn" style="margin-top:26px">记录错因</div>
+      </div>
+    </div>
+  </div>
+  <div class="caption plate"><span class="txt">错了不重要<br>重要的是 <span class="hl">为什么错</span></span></div>
+</div>
+
+<!-- 5 错因画像（爆点） -->
+<div class="scene" id="s5">
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <div style="position:absolute;left:90px;top:170px">
+    <div class="sub" style="letter-spacing:10px;font-size:26px">错 因 画 像</div>
+    <div class="big-num" style="font-size:200px;margin-top:10px">62<span style="font-size:100px">%</span></div>
+    <div class="h2" style="margin-top:6px">的错误来自「审题失误」</div>
+    <div class="sub" style="margin-top:14px">不是不会，是没看清问什么</div>
+  </div>
+  <div class="card" style="position:absolute;left:90px;right:90px;top:820px;padding:44px">
+    <div style="display:flex;flex-direction:column;gap:34px">
+      <div><div class="kv" style="font-size:26px"><span>👀 审题失误</span><span>62%</span></div><div class="bar" style="margin-top:12px;height:22px"><i style="width:62%"></i></div></div>
+      <div><div class="kv" style="font-size:26px"><span>📚 概念不清</span><span>24%</span></div><div class="bar" style="margin-top:12px;height:22px"><i style="width:24%"></i></div></div>
+      <div><div class="kv" style="font-size:26px"><span>⏱ 时间不够</span><span>14%</span></div><div class="bar" style="margin-top:12px;height:22px"><i style="width:14%"></i></div></div>
+    </div>
+  </div>
+  <div class="card" style="position:absolute;left:90px;right:90px;top:1290px;background:#FFF6EC;border:1px solid #FBE0C8">
+    <div style="font-size:26px;line-height:1.75;color:#8A5410">
+      <b>提分建议：</b>做题时先用笔圈出提问词（正确 / 不正确、最能 / 不能），再动笔。
+    </div>
+  </div>
+  <div class="caption plate" style="bottom:110px"><span class="txt">同类软件只告诉你「哪科弱」<br><span class="hl">它告诉你「为什么错」</span></span></div>
+</div>
+
+<!-- 6 节奏诊断 + 复习 -->
+<div class="scene" id="s6">
+  <div class="glow g2"></div>
+  <div style="position:absolute;left:90px;top:150px;right:90px">
+    <div class="h1" style="font-size:64px">节奏诊断</div>
+    <div class="sub" style="margin-top:10px">哪道题偷走了你的时间</div>
+    <div class="card" style="margin-top:30px;padding:34px">
+      <div class="row" style="align-items:flex-end;gap:16px;height:260px">
+        <div style="flex:1;background:var(--grad);border-radius:16px 16px 0 0;height:62%"></div>
+        <div style="flex:1;background:var(--grad);border-radius:16px 16px 0 0;height:34%;opacity:.8"></div>
+        <div style="flex:1;background:var(--grad);border-radius:16px 16px 0 0;height:22%;opacity:.65"></div>
+        <div style="flex:1;background:#EF4444;border-radius:16px 16px 0 0;height:96%"></div>
+        <div style="flex:1;background:var(--grad);border-radius:16px 16px 0 0;height:40%;opacity:.75"></div>
+      </div>
+      <div class="row" style="justify-content:space-between;margin-top:12px;font-size:20px;color:var(--muted)">
+        <span>&lt;30s</span><span>30-60</span><span>60-90</span><span style="color:#DC2626">90-150</span><span>150s+
+      </span></div>
+      <div style="margin-top:22px;background:#FFF6EC;border-radius:16px;padding:20px;font-size:23px;line-height:1.7;color:#8A5410">
+        有 1 题耗时超过 2 分钟，考试时这类题建议先标记跳过。
+      </div>
+    </div>
+    <div class="card" style="margin-top:26px;padding:34px">
+      <div class="h2" style="font-size:34px">今日复习 · 遗忘曲线</div>
+      <div class="row" style="margin-top:24px;gap:0;justify-content:space-between">
+        <div style="text-align:center;flex:1"><div style="width:22px;height:22px;border-radius:50%;background:var(--grad);margin:0 auto"></div><div style="font-size:20px;margin-top:10px;color:var(--fg2)">5 分钟</div></div>
+        <div style="flex:2;height:4px;background:var(--line);margin-top:-28px"></div>
+        <div style="text-align:center;flex:1"><div style="width:22px;height:22px;border-radius:50%;background:var(--grad);margin:0 auto"></div><div style="font-size:20px;margin-top:10px;color:var(--fg2)">1 天</div></div>
+        <div style="flex:2;height:4px;background:var(--line);margin-top:-28px"></div>
+        <div style="text-align:center;flex:1"><div style="width:22px;height:22px;border-radius:50%;background:var(--grad);margin:0 auto"></div><div style="font-size:20px;margin-top:10px;color:var(--fg2)">3 天</div></div>
+        <div style="flex:2;height:4px;background:var(--line);margin-top:-28px"></div>
+        <div style="text-align:center;flex:1"><div style="width:22px;height:22px;border-radius:50%;background:var(--grad);margin:0 auto"></div><div style="font-size:20px;margin-top:10px;color:var(--fg2)">7 天</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="caption plate" style="bottom:110px"><span class="txt" style="font-size:44px">错过的题，会自动找你<br><span class="hl">5 分钟 · 1 天 · 3 天 · 7 天</span></span></div>
+</div>
+
+<!-- 7 考点时间线 -->
+<div class="scene" id="s7">
+  <div class="glow g1"></div>
+  <div style="position:absolute;left:90px;top:150px;right:90px">
+    <div class="h1" style="font-size:64px">考点时间线</div>
+    <div class="sub" style="margin-top:10px">同一考点，五年怎么考</div>
+  </div>
+  <div style="position:absolute;left:110px;top:420px;bottom:300px;width:6px;background:linear-gradient(180deg,#F4701E,#E94560,transparent);border-radius:99px"></div>
+  <div style="position:absolute;left:170px;top:400px;right:90px;display:flex;flex-direction:column;gap:34px">
+    <div><div class="row"><div class="h2" style="font-size:44px">2026 年</div><div class="badge">270 题</div></div>
+      <div class="card" style="margin-top:14px;padding:24px"><div class="row"><span class="tag">实词辨析</span><span class="tag">上海</span></div><div style="margin-top:12px;font-size:24px;line-height:1.6;color:var(--fg2)">近年来，我国数字经济____，规模稳居世界第二……</div></div></div>
+    <div><div class="row"><div class="h2" style="font-size:44px;color:var(--fg2)">2025 年</div><div class="badge">312 题</div></div>
+      <div class="card" style="margin-top:14px;padding:24px"><div class="row"><span class="tag">实词辨析</span><span class="tag">山东</span></div><div style="margin-top:12px;font-size:24px;line-height:1.6;color:var(--fg2)">基层治理既要____，也要因地制宜……</div></div></div>
+    <div><div class="row"><div class="h2" style="font-size:44px;color:#8A6A58">2024 年</div><div class="badge">286 题</div></div></div>
+  </div>
+  <div class="caption plate"><span class="txt">同一个考点<br><span class="hl">五年命题演变，一眼看穿</span></span></div>
+</div>
+
+<!-- 8 品牌收尾 -->
+<div class="scene" id="s8">
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;text-align:center">
+    <div style="width:260px;height:260px;border-radius:72px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:130px;box-shadow:0 40px 90px -30px rgba(233,69,96,.8)">📚</div>
+    <div style="font-size:110px;font-weight:900;letter-spacing:2px">行测题库</div>
+    <div class="sub" style="font-size:32px;letter-spacing:4px">完全离线 · 无广告 · 无登录</div>
+    <div class="card" style="padding:30px 44px;margin-top:30px">
+      <div style="font-size:30px;color:var(--fg2)">你的每一次坚持<br>成就你更好的人生</div>
+    </div>
+    <div class="sub" style="font-size:26px;margin-top:24px;color:var(--muted)">下载方式见评论区 👇</div>
+  </div>
+</div>
+
+</body></html>

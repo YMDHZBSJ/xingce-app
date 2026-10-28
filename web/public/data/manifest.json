@@ -1,0 +1,38 @@
+{
+ "years": [
+  "2022",
+  "2023",
+  "2024",
+  "2025",
+  "2026"
+ ],
+ "total": 22298,
+ "modules": {
+  "政治理论": {
+   "file": "政治理论.json",
+   "count": 1652
+  },
+  "常识判断": {
+   "file": "常识判断.json",
+   "count": 2752
+  },
+  "言语理解与表达": {
+   "file": "言语理解与表达.json",
+   "count": 5796
+  },
+  "数量关系": {
+   "file": "数量关系.json",
+   "count": 2498
+  },
+  "判断推理": {
+   "file": "判断推理.json",
+   "count": 6424
+  },
+  "资料分析": {
+   "file": "资料分析.json",
+   "count": 3176
+  }
+ },
+ "author": "xiaogaostu",
+ "copyright": "© 2026 xiaogaostu. All Rights Reserved."
+}

@@ -1,0 +1,31 @@
+# 依赖
+node_modules/
+.pnpm-store/
+
+# 构建产物
+web/.next/
+web/out/
+android/build/
+android/.gradle/
+android/app/build/
+android/app/src/main/assets/public/
+android/app/src/main/res/xml/config.xml.bak
+
+# 图片资源（体积大，需本地生成：从 xingcezhenti 复制）
+web/public/images/
+img-tmp/
+
+# 安装包（走 GitHub Release）
+*.apk
+*.aab
+
+# 系统/编辑器
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/
+
+# 视频中间产物
+video/frames/
+video/audio/

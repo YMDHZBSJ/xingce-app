@@ -1,0 +1,60 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="tokens.css">
+<style>
+.donut{width:132px;height:132px;border-radius:50%;background:conic-gradient(#F4701E 0 28%,#E94560 28% 55%,#F59E0B 55% 73%,#8B5CF6 73% 88%,#10B981 88% 100%);display:flex;align-items:center;justify-content:center;position:relative}
+.donut:after{content:"";position:absolute;width:88px;height:88px;border-radius:50%;background:#fff}
+.donut .in{position:relative;z-index:1;text-align:center}
+.donut .in b{display:block;font-size:19px;font-weight:800}
+.donut .in span{font-size:10px;color:var(--fg-muted)}
+.legend{font-size:12px}
+.legend div{display:flex;align-items:center;gap:7px;margin-bottom:7px;color:var(--fg-2)}
+.dot{width:8px;height:8px;border-radius:3px}
+.bar-row{margin-bottom:11px}
+.bar-row .t{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;color:var(--fg-2);font-weight:600}
+.bar-row .track{height:9px;border-radius:5px;background:#F6EDE5;overflow:hidden}
+.bar-row .fill{height:100%;border-radius:5px;background:var(--grad)}
+</style></head><body><div class="screen">
+<div class="status"><span>9:41</span><span>题型分析</span><span>100%</span></div>
+<div class="scroll">
+  <div class="h1">题型分析</div>
+  <div class="sub">看清结构，才有策略</div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="card-t">模块分布</div>
+    <div class="row" style="gap:18px">
+      <div class="donut"><div class="in"><b>22,298</b><span>总题量</span></div></div>
+      <div class="legend" style="flex:1">
+        <div><i class="dot" style="background:#F4701E"></i>判断推理 6,424</div>
+        <div><i class="dot" style="background:#E94560"></i>言语理解 5,796</div>
+        <div><i class="dot" style="background:#F59E0B"></i>资料分析 3,176</div>
+        <div><i class="dot" style="background:#8B5CF6"></i>常识判断 2,752</div>
+        <div><i class="dot" style="background:#10B981"></i>数量关系 2,498</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="card-t">年份趋势</div>
+    <div class="bar-row"><div class="t"><span>2025</span><span>5,120 题</span></div><div class="track"><div class="fill" style="width:92%"></div></div></div>
+    <div class="bar-row"><div class="t"><span>2024</span><span>4,830 题</span></div><div class="track"><div class="fill" style="width:86%"></div></div></div>
+    <div class="bar-row"><div class="t"><span>2023</span><span>4,410 题</span></div><div class="track"><div class="fill" style="width:78%"></div></div></div>
+    <div class="bar-row" style="margin-bottom:0"><div class="t"><span>2022</span><span>3,940 题</span></div><div class="track"><div class="fill" style="width:70%"></div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-t">我的正确率</div>
+    <div class="row" style="justify-content:space-between;margin-bottom:10px">
+      <div style="text-align:center;flex:1"><b style="font-size:22px;font-weight:800" class="grad-text">72%</b><div class="muted" style="font-size:11px">总正确率</div></div>
+      <div style="text-align:center;flex:1"><b style="font-size:22px;font-weight:800">318</b><div class="muted" style="font-size:11px">已练题数</div></div>
+      <div style="text-align:center;flex:1"><b style="font-size:22px;font-weight:800;color:var(--err)">89</b><div class="muted" style="font-size:11px">错题</div></div>
+    </div>
+    <div class="bar-row" style="margin-bottom:0"><div class="t"><span>资料分析</span><span>81%</span></div><div class="track"><div class="fill" style="width:81%"></div></div></div>
+  </div>
+</div>
+<div class="tabbar">
+  <div class="tab"><div class="ico">🏠</div>首页</div>
+  <div class="tab on"><div class="ico">🔍</div>题库</div>
+  <div class="tab"><div class="ico">✏️</div>专练</div>
+  <div class="tab"><div class="ico">📝</div>模考</div>
+  <div class="tab"><div class="ico">👤</div>我的</div>
+</div>
+</div></body></html>

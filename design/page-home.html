@@ -1,0 +1,54 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="tokens.css">
+<style>
+.hero{position:relative;background:var(--grad);border-radius:26px;padding:20px;color:#fff;overflow:hidden;box-shadow:var(--shadow-lg)}
+.hero:after{content:"";position:absolute;right:-40px;top:-50px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.16)}
+.hero h2{margin:0 0 6px;font-size:19px;font-weight:800}
+.hero p{margin:0 0 16px;font-size:12.5px;opacity:.92;line-height:1.6}
+.hero .cta{display:inline-flex;align-items:center;gap:7px;background:#fff;color:#E94560;font-weight:800;font-size:14px;padding:11px 18px;border-radius:999px}
+.stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.st{background:#fff;border-radius:16px;padding:12px 8px;text-align:center;box-shadow:var(--shadow)}
+.st b{display:block;font-size:17px;font-weight:800}
+.st span{font-size:10.5px;color:var(--fg-muted)}
+.q{display:flex;gap:11px;align-items:center;background:#fff;border-radius:16px;padding:13px;margin-bottom:9px;box-shadow:0 3px 14px rgba(233,69,96,.07)}
+.q .ic{width:38px;height:38px;border-radius:12px;background:var(--grad-soft);display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
+.q b{display:block;font-size:14px;font-weight:700}
+.q span{font-size:11.5px;color:var(--fg-muted)}
+.q .arr{margin-left:auto;color:#D6C9BE;font-size:16px}
+.paper{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}
+.paper:last-child{border:0}
+</style></head><body><div class="screen">
+<div class="status"><span>9:41</span><span>行测题库</span><span>100%</span></div>
+<div class="scroll">
+  <div class="between" style="margin:8px 0 4px">
+    <div><div class="h1" style="margin:0">我要上岸 🎯</div><div class="sub" style="margin:2px 0 0">近 5 年真题 · 22,298 题</div></div>
+    <div style="width:38px;height:38px;border-radius:14px;background:#fff;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center">🔔</div>
+  </div>
+  <div class="hero" style="margin-top:12px">
+    <h2>今日一练</h2>
+    <p>随机 10 题 · 计时并记录 · 错题自动归档</p>
+    <div class="cta">开始 10 题 →</div>
+  </div>
+  <div class="stats3">
+    <div class="st"><b class="grad-text">22,298</b><span>题库总量</span></div>
+    <div class="st"><b class="grad-text">194</b><span>套真题卷</span></div>
+    <div class="st"><b class="grad-text">106</b><span>考点</span></div>
+  </div>
+  <div class="card-t" style="margin:20px 0 10px">快速入口</div>
+  <div class="q"><div class="ic">🔍</div><div><b>智能搜索</b><span>按关键词检索全部真题</span></div><div class="arr">›</div></div>
+  <div class="q"><div class="ic">📊</div><div><b>题型分析</b><span>模块·年份·地区分布</span></div><div class="arr">›</div></div>
+  <div class="q"><div class="ic">🧭</div><div><b>考点图谱</b><span>106 考点双向关联</span></div><div class="arr">›</div></div>
+  <div class="card-t" style="margin:18px 0 6px">最近试卷</div>
+  <div class="card" style="padding:6px 14px">
+    <div class="paper"><span>2025 国考副省级</span><span class="badge">135 题</span></div>
+    <div class="paper"><span>2025 江苏省考 A</span><span class="badge gray">130 题</span></div>
+    <div class="paper"><span>2024 国考地市级</span><span class="badge gray">130 题</span></div>
+  </div>
+</div>
+<div class="tabbar">
+  <div class="tab on"><div class="ico">🏠</div>首页</div>
+  <div class="tab"><div class="ico">🔍</div>题库</div>
+  <div class="tab"><div class="ico">✏️</div>专练</div>
+  <div class="tab"><div class="ico">📝</div>模考</div>
+  <div class="tab"><div class="ico">👤</div>我的</div>
+</div>
+</div></body></html>

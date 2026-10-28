@@ -1,0 +1,8 @@
+行测题库 (Xingce Question Bank)
+作者 / Author: xiaogaostu
+版权 / Copyright: © 2026 xiaogaostu. All Rights Reserved.
+GitHub: https://github.com/YMDHZBSJ
+
+本应用及其源代码、界面设计、图标、题库整理成果均为作者原创，
+未经书面许可禁止复制、修改、分发、二次打包或商业使用。
+详见 LICENSE 文件。

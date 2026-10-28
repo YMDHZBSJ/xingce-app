@@ -1,0 +1,17 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+body{margin:0;background:#221A16;font-family:"PingFang SC",sans-serif;padding:26px}
+h1{color:#fff;font-size:20px;margin:0 0 4px;font-weight:800}
+p{color:#A89A90;font-size:12.5px;margin:0 0 20px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.cell{display:flex;flex-direction:column;gap:8px}
+img{width:100%;border-radius:22px;display:block;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.lbl{color:#D8CCC4;font-size:12px;text-align:center;font-weight:600}
+</style></head><body>
+<h1>行测题库 · 移动端设计稿 v1</h1>
+<p>橙红暖色系（#F4701E → #E94560）· 米白底 · 大圆角卡片 · 底部 5 Tab</p>
+<div class="grid" id="g"></div>
+<script>
+const pages=[['home','首页'],['search','题库搜索'],['practice','题型专练'],['question','做题页'],['exam','模拟考试'],['stats','题型分析'],['knowledge','考点图谱'],['wrong','错题本'],['me','我的']];
+document.getElementById('g').innerHTML=pages.map(([f,n])=>`
+<div class="cell"><img src="out/${f}.png"><div class="lbl">${n}</div></div>`).join('');
+</script></body></html>
