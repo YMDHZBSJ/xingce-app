@@ -14,6 +14,7 @@ import { loadHistory, todayCount } from "./lib/history";
 import { onSoftRefresh } from "./lib/soft-refresh";
 import { moduleStyle } from "./lib/module-icons";
 import { loadSettings } from "./lib/settings";
+import { getCountdown, type CountdownInfo } from "./lib/exam-countdown";
 
 interface WrongEntry { id: number; count: number; lastAt?: number }
 interface DailyTip { text: string }
@@ -47,9 +48,18 @@ export default function Home() {
   const [daily, setDaily] = useState<{ current: number; total: number } | null>(null);
   const [dailyDone, setDailyDone] = useState(false);
   const [goal, setGoal] = useState(20);
+  const [cd, setCd] = useState<CountdownInfo | null>(null);
   const [total, setTotal] = useState(22298);
   const [tip, setTip] = useState<DailyTip>({ text: TIPS[0] });
   const [moduleProgress, setModuleProgress] = useState<{ module: string; done: number; total: number }[]>([]);
+
+  // 考试倒计时：挂载即计算，每 30 秒刷新
+  useEffect(() => {
+    const tick = () => setCd(getCountdown());
+    tick();
+    const t = setInterval(tick, 30 * 1000);
+    return () => clearInterval(t);
+  }, []);
 
   useEffect(() => {
     const load = async () => {
@@ -173,6 +183,34 @@ export default function Home() {
           </svg>
         </Link>
       </div>
+
+      {/* 考试倒计时 */}
+      {cd && cd.state !== "ended" && (
+        <div
+          className={`mt-3 flex items-center gap-3 rounded-2xl px-4 py-3 ${cd.urgent ? "xc-countdown-urgent" : ""}`}
+          style={{
+            background: cd.urgent
+              ? "linear-gradient(135deg,#DC2626 0%,#E94560 100%)"
+              : "linear-gradient(135deg,#F4701E 0%,#E94560 100%)",
+            boxShadow: cd.urgent
+              ? "0 14px 30px -14px rgba(220,38,38,.85)"
+              : "0 14px 30px -16px rgba(233,69,96,.7)",
+          }}
+        >
+          <span className="text-[20px]">{cd.state === "running" ? "🔴" : "⏳"}</span>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-[11.5px] font-semibold text-white/80">
+                {cd.state === "running" ? "考试" : "距行测考试"}
+              </span>
+              {cd.state === "upcoming" && (
+                <span className="text-[19px] font-extrabold leading-none text-white">{cd.primary}</span>
+              )}
+            </div>
+            <div className="mt-0.5 truncate text-[10.5px] text-white/85">{cd.secondary}</div>
+          </div>
+        </div>
+      )}
 
       {/* 今日练习 */}
       <div

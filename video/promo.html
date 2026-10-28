@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<title>行测题库 · 30s 宣传片</title>
+<style>
+:root{--orange:#F4701E;--red:#E94560;--bg1:#FDF7F2;--bg2:#FCEFE8;--fg:#2A1B14;--fg2:#5C463C;--muted:#9C8B80;--line:#EFE2D8;--grad:linear-gradient(135deg,#F4701E 0%,#E94560 100%)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#0d0907}
+body{font-family:"PingFang SC","Hiragino Sans GB",sans-serif;color:var(--fg)}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden}
+.scene{position:absolute;inset:0;opacity:0;pointer-events:none;will-change:transform,opacity;background:linear-gradient(180deg,#FDF7F2 0%,#FCEFE8 100%)}
+.scene.dark{background:#120C09}
+.glow{position:absolute;border-radius:50%;filter:blur(70px)}
+.phone{position:absolute;left:50%;width:860px;height:1200px;border-radius:52px;background:#fff;box-shadow:0 40px 90px -30px rgba(120,60,30,.45),0 0 0 9px rgba(42,27,20,.9);overflow:hidden;transform-origin:50% 50%}
+.phone-notch{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:150px;height:26px;border-radius:20px;background:#2A1B14;opacity:.85}
+.screen{position:absolute;inset:0;padding:64px 40px 180px;display:flex;flex-direction:column;gap:22px}
+.h1{font-size:56px;font-weight:800;line-height:1.2;letter-spacing:-1px}
+.h2{font-size:40px;font-weight:800;line-height:1.25}
+.sub{font-size:24px;color:var(--muted);line-height:1.55}
+.card{background:#fff;border-radius:34px;padding:34px;box-shadow:0 18px 40px -22px rgba(120,60,30,.35);border:1px solid rgba(239,226,216,.9)}
+.card-grad{background:var(--grad);color:#fff;border-radius:34px;padding:38px;box-shadow:0 26px 50px -24px rgba(233,69,96,.75);position:relative;overflow:hidden}
+.card-grad::after{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:rgba(255,255,255,.16);right:-140px;top:-160px}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:14px 30px;border-radius:999px;background:#fff;color:#E94560;font-size:28px;font-weight:800}
+.tag{padding:8px 18px;border-radius:12px;background:#FDF1EA;border:1px solid #F6DFD2;font-size:20px;color:#8A6A58;font-weight:600}
+.row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.bar{height:16px;border-radius:999px;background:#F3E7DE;overflow:hidden}
+.bar>i{display:block;height:100%;border-radius:999px;background:var(--grad)}
+.appicon{width:100%;height:100%;object-fit:contain;display:block}
+.appicon-box{display:flex;align-items:center;justify-content:center;overflow:hidden;background:transparent}
+.mocktab{position:absolute;left:0;right:0;bottom:0;height:150px;background:#fff;border-top:1px solid #F1E5DA;display:flex;align-items:center;justify-content:space-around;box-shadow:0 -10px 30px -18px rgba(120,60,30,.35)}
+.mocktab div{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:19px;color:#9C8B80}
+.mocktab div.on{color:#E94560;font-weight:800}
+.mocktab b{font-size:30px;line-height:1}
+.cap{position:absolute;left:0;right:0;bottom:110px;text-align:center;z-index:9}
+.cap > span{display:inline-block;padding:22px 38px;border-radius:30px;background:rgba(255,255,255,.94);border:1px solid rgba(239,226,216,.9);box-shadow:0 24px 60px -26px rgba(120,60,30,.45);font-size:46px;font-weight:900;line-height:1.35}
+.cap .hl{color:#E94560}
+.big{font-size:200px;font-weight:900;line-height:1;letter-spacing:-6px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+</style></head>
+<body><div id="stage">
+
+<!-- S1 品牌 + 离线 -->
+<div class="scene dark" id="s1">
+  <div class="glow" style="width:900px;height:900px;background:rgba(244,112,30,.45);left:-260px;top:-200px"></div>
+  <div class="glow" style="width:800px;height:800px;background:rgba(233,69,96,.38);right:-240px;bottom:-200px"></div>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:44px">
+    <img id="s1-logo" class="appicon" src="icon-app.png" style="width:260px;height:260px;filter:drop-shadow(0 30px 60px rgba(233,69,96,.55))" />
+    <div id="s1-title" style="font-size:112px;font-weight:900;letter-spacing:3px;color:#fff">行测题库</div>
+    <div id="s1-sub" class="sub" style="font-size:40px;letter-spacing:3px;color:rgba(255,255,255,.78)">行测刷题，随时随地开刷</div>
+    <div id="s1-badge" class="row" style="gap:16px;margin-top:20px">
+      <span class="tag" style="font-size:26px;padding:12px 26px">无需网络</span>
+      <span class="tag" style="font-size:26px;padding:12px 26px">无广告</span>
+      <span class="tag" style="font-size:26px;padding:12px 26px">无账号</span>
+    </div>
+  </div>
+</div>
+
+<!-- S2 题库 -->
+<div class="scene" id="s2">
+  <div class="glow" style="width:1000px;height:1000px;background:rgba(244,112,30,.40);left:-300px;top:-240px"></div>
+  <div class="phone" id="s2-phone" style="transform:translateX(-50%) translateY(600px) scale(.96)"><div class="phone-notch"></div>
+    <div class="screen">
+      <div class="row" style="justify-content:space-between">
+        <img class="appicon" src="icon-app.png" style="width:78px;height:78px" />
+        <div class="tag">完全离线</div>
+      </div>
+      <div class="h1">行测真题库</div>
+      <div class="sub">2022 — 2026 · 六大模块 · 解析与配图齐全</div>
+      <div class="card">
+        <div style="font-size:22px;color:var(--muted)">收录真题</div>
+        <div class="big" id="s2-num" style="font-size:150px;margin-top:6px">0</div>
+        <div class="sub" style="margin-top:6px">道</div>
+      </div>
+      <div id="s2-chips" class="row" style="gap:14px">
+        <span class="tag">判断推理</span><span class="tag">言语理解</span><span class="tag">资料分析</span>
+        <span class="tag">数量关系</span><span class="tag">常识判断</span><span class="tag">政治理论</span>
+      </div>
+      <div class="card" style="display:flex;justify-content:space-between">
+        <div><div class="sub" style="font-size:20px">套卷</div><div class="h2" id="s2-papers">0</div></div>
+        <div><div class="sub" style="font-size:20px">考点</div><div class="h2" id="s2-kps">0</div></div>
+        <div><div class="sub" style="font-size:20px">配图</div><div class="h2" id="s2-imgs">0</div></div>
+      </div>
+      <div class="card-grad" style="padding:26px 30px">
+        <div style="font-size:24px;font-weight:800">全部保存在本地</div>
+        <div style="font-size:20px;opacity:.9;margin-top:8px">题库 · 解析 · 配图，断网也能看</div>
+      </div>
+      <div class="mocktab">
+        <div class="on"><b>📖</b>首页</div>
+        <div><b>✏️</b>专练</div>
+        <div><b>📋</b>模考</div>
+        <div><b>⚠️</b>错题</div>
+        <div><b>📊</b>我的</div>
+      </div>
+    </div>
+  </div>
+  <div class="cap" id="s2-cap"><span>题库来自公开真题库<br><span class="hl">22,298 道 · 2022–2026</span></span></div>
+</div>
+
+<!-- S3 题型专练 + 计时 -->
+<div class="scene" id="s3">
+  <div class="glow" style="width:900px;height:900px;background:rgba(233,69,96,.35);right:-260px;top:-200px"></div>
+  <div class="phone" id="s3-phone" style="transform:translateX(-50%) translateY(540px) scale(.96)"><div class="phone-notch"></div>
+    <div class="screen">
+      <div class="row" style="justify-content:space-between">
+        <div class="tag">←</div>
+        <div class="h2" style="font-size:30px" id="s3-idx">1 <span style="color:var(--muted)">/ 20</span></div>
+        <div class="tag" style="background:var(--grad);color:#fff;border:0">交卷</div>
+      </div>
+      <div class="row" id="s3-timer">
+        <span class="tag" style="background:#fff;color:#E94560;border-color:#F6D3C6">⏱ 本题 <b id="s3-sec">0:00</b></span>
+        <span class="sub" style="font-size:22px">题型专练 · 20 题</span>
+      </div>
+      <div class="card">
+        <div class="row"><span class="tag">资料分析</span><span class="tag">增长率</span><span class="tag">2025 山东</span></div>
+        <div style="margin-top:22px;font-size:28px;line-height:1.75">2023 年，邮政行业寄递业务量累计完成 1624.8 亿件，同比增长 16.8%……</div>
+        <div style="margin-top:24px;display:flex;flex-direction:column;gap:16px">
+          <div class="opt" style="border:2px solid var(--line);border-radius:18px;padding:22px 26px;font-size:26px">A. 15.2%</div>
+          <div class="opt" style="border:2px solid var(--line);border-radius:18px;padding:22px 26px;font-size:26px">B. 16.8%</div>
+          <div class="opt" style="border:2px solid var(--line);border-radius:18px;padding:22px 26px;font-size:26px">C. 19.4%</div>
+          <div class="opt" style="border:2px solid var(--line);border-radius:18px;padding:22px 26px;font-size:26px">D. 21.0%</div>
+        </div>
+      </div>
+      <div class="card" style="padding:18px;display:flex;gap:14px;align-items:center">
+        <div class="tag" style="font-size:22px">← 上一题</div>
+        <div style="flex:1;text-align:center;font-size:22px;color:var(--muted)">选择答案后查看解析</div>
+        <div class="tag" style="background:var(--grad);color:#fff;border:0;font-size:22px">下一题 →</div>
+      </div>
+      <div id="s3-select" style="position:absolute;inset:0;background:#fff;padding:70px 46px;display:flex;flex-direction:column;gap:26px">
+        <div class="h1" style="font-size:52px">题型专练</div>
+        <div class="sub">选择模块、题型与题量</div>
+        <div class="row" style="gap:14px;margin-top:6px">
+          <span class="tag" style="background:var(--grad);color:#fff;border:0">判断推理</span>
+          <span class="tag">言语理解</span><span class="tag">资料分析</span>
+        </div>
+        <div class="row" style="gap:14px">
+          <span class="tag">全部题型</span><span class="tag" style="background:var(--grad);color:#fff;border:0">逻辑填空</span>
+          <span class="tag">图形推理</span>
+        </div>
+        <div class="card" style="padding:28px">
+          <div class="sub" style="font-size:22px">本次题量</div>
+          <div class="row" style="gap:16px;margin-top:16px">
+            <span class="tag" style="font-size:26px;padding:12px 30px">10</span>
+            <span class="tag" style="font-size:26px;padding:12px 30px;background:var(--grad);color:#fff;border:0">20</span>
+            <span class="tag" style="font-size:26px;padding:12px 30px">30</span>
+            <span class="tag" style="font-size:26px;padding:12px 30px">50</span>
+          </div>
+        </div>
+        <div class="pill" style="align-self:flex-start;margin-top:4px">开始练习 →</div>
+      </div>
+      <div class="mocktab">
+        <div><b>📖</b>首页</div>
+        <div class="on"><b>✏️</b>专练</div>
+        <div><b>📋</b>模考</div>
+        <div><b>⚠️</b>错题</div>
+        <div><b>📊</b>我的</div>
+      </div>
+    </div>
+  </div>
+  <div class="cap"><span>按模块和题型练<br><span class="hl">每题计时，交卷出报告</span></span></div>
+</div>
+
+<!-- S4 模拟考试 -->
+<div class="scene" id="s4">
+  <div class="glow" style="width:900px;height:900px;background:rgba(244,112,30,.40);left:-260px;bottom:-220px"></div>
+  <div class="phone" id="s4-phone" style="transform:translateX(-50%) translateY(540px) scale(.96)"><div class="phone-notch"></div>
+    <div class="screen">
+      <div class="card" style="padding:26px">
+        <div class="row" style="justify-content:space-between">
+          <div class="tag">←</div>
+          <div id="s4-cd" style="flex:1;margin:0 16px;border-radius:999px;padding:16px 24px;background:var(--grad);color:#fff;display:flex;align-items:center;gap:12px;box-shadow:0 10px 24px -12px rgba(233,69,96,.8)">
+            <span style="font-size:26px">⏱</span><b id="s4-cd-num" style="font-size:34px;letter-spacing:1px">120:00</b>
+            <span style="margin-left:auto;font-size:20px;opacity:.9">剩余时间</span>
+          </div>
+          <div class="tag" style="background:var(--grad);color:#fff;border:0">交卷</div>
+        </div>
+        <div class="row" style="margin-top:18px;gap:14px">
+          <div class="card" style="flex:1;padding:18px;text-align:center"><b style="font-size:34px;color:#10B981" id="s4-done">0</b><div class="sub" style="font-size:18px">已答</div></div>
+          <div class="card" style="flex:1;padding:18px;text-align:center"><b style="font-size:34px;color:#E94560" id="s4-left">119</b><div class="sub" style="font-size:18px">未答</div></div>
+          <div class="card" style="flex:1;padding:18px;text-align:center"><b style="font-size:34px;color:#B45309">0</b><div class="sub" style="font-size:18px">标记</div></div>
+        </div>
+        <div class="bar" style="margin-top:16px"><i id="s4-bar" style="width:0%"></i></div>
+      </div>
+      <div class="card" style="flex:1">
+        <div class="row"><span class="tag">政治理论</span><span class="tag">2025 国考</span></div>
+        <div style="margin-top:20px;font-size:28px;line-height:1.75">习近平总书记强调，自我革命是党跳出治乱兴衰历史周期率的第二个答案……</div>
+        <div style="margin-top:24px;display:flex;flex-direction:column;gap:16px">
+          <div class="opt" style="border:2px solid var(--line);border-radius:18px;padding:22px 26px;font-size:26px">A. 2 项</div>
+          <div class="opt" style="border:2px solid #F4701E;background:#FDF3EC;border-radius:18px;padding:22px 26px;font-size:26px;color:#C2410C;font-weight:700">B. 3 项</div>
+          <div class="opt" style="border:2px solid var(--line);border-radius:18px;padding:22px 26px;font-size:26px">C. 4 项</div>
+        </div>
+      </div>
+      <div class="card" style="padding:18px;display:flex;gap:14px;align-items:center">
+        <div class="tag" style="font-size:22px">← 上一题</div>
+        <div class="tag" style="font-size:22px">☆ 标记</div>
+        <div style="flex:1"></div>
+        <div class="tag" style="background:var(--grad);color:#fff;border:0;font-size:22px">下一题 →</div>
+      </div>
+      <div id="s4-papers" style="position:absolute;inset:0;background:#fff;padding:70px 46px;display:flex;flex-direction:column;gap:22px">
+        <div class="h1" style="font-size:52px">模拟考试</div>
+        <div class="sub">整套计时，还原真实考场</div>
+        <div class="card" style="padding:26px 28px">
+          <div class="row"><span class="tag">2026 国考</span><span class="tag" style="margin-left:auto">120 分钟</span></div>
+          <div style="margin-top:14px;font-size:26px;font-weight:800">2026 国考《行测》地市级</div>
+          <div class="sub" style="font-size:20px;margin-top:6px">110 题 · 未开始</div>
+        </div>
+        <div class="card" style="padding:26px 28px">
+          <div class="row"><span class="tag">2025 省考</span><span class="tag" style="margin-left:auto">120 分钟</span></div>
+          <div style="margin-top:14px;font-size:26px;font-weight:800">2025 山东省考《行测》</div>
+          <div class="sub" style="font-size:20px;margin-top:6px">120 题 · 上次 68%</div>
+        </div>
+        <div class="card" style="padding:26px 28px">
+          <div class="row"><span class="tag">2025 联考</span><span class="tag" style="margin-left:auto">120 分钟</span></div>
+          <div style="margin-top:14px;font-size:26px;font-weight:800">2025 联考《行测》A 卷</div>
+          <div class="sub" style="font-size:20px;margin-top:6px">115 题 · 未开始</div>
+        </div>
+      </div>
+      <div class="mocktab">
+        <div><b>📖</b>首页</div>
+        <div><b>✏️</b>专练</div>
+        <div><b>📋</b>模考</div>
+        <div><b>⚠️</b>错题</div>
+        <div><b>📊</b>我的</div>
+      </div>
+    </div>
+  </div>
+  <div class="cap"><span>整套模拟考试<br><span class="hl">还原真实考场节奏</span></span></div>
+</div>
+
+<!-- S5 错题 + 错因 + 复习 -->
+<div class="scene" id="s5">
+  <div class="glow" style="width:900px;height:900px;background:rgba(233,69,96,.35);right:-260px;bottom:-220px"></div>
+  <div style="position:absolute;left:80px;right:80px;top:210px">
+    <div class="sub" style="font-size:26px;letter-spacing:8px">错 题 本</div>
+    <div id="s5-title" class="h1" style="font-size:72px;margin-top:12px">答错自动归档</div>
+    <div id="s5-q" style="margin-top:30px;background:#fff;border-radius:30px;padding:30px;box-shadow:0 20px 50px -26px rgba(120,60,30,.4)">
+      <div class="row"><span class="tag">言语理解</span><span class="tag">逻辑填空</span><span class="tag" style="margin-left:auto">第 3 题</span></div>
+      <div style="margin-top:18px;font-size:26px;line-height:1.7;color:#5C463C">近年来，我国数字经济____，规模稳居世界第二……</div>
+      <div class="row" style="margin-top:18px;gap:16px">
+        <span style="font-size:24px;color:#E94560;font-weight:700">你的答案 A ✗</span>
+        <span style="font-size:24px;color:#10B981;font-weight:700">正确答案 D ✓</span>
+      </div>
+    </div>
+    <div id="s5-panel" style="margin-top:26px;background:#fff;border-radius:34px;padding:34px;box-shadow:0 24px 60px -26px rgba(120,60,30,.45);opacity:0;transform:translateY(40px)">
+      <div class="h2" style="font-size:34px">这道题为什么错？</div>
+      <div class="sub" style="margin-top:8px;font-size:22px">标记错因，找出真正的短板</div>
+      <div style="margin-top:22px;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;align-items:center;gap:16px;background:#FDF3EC;border:2px solid rgba(244,112,30,.45);border-radius:18px;padding:20px 24px"><span style="font-size:30px">👀</span><div><b style="font-size:26px;color:#C2410C">审题失误</b><div class="sub" style="font-size:18px">看错问法或条件</div></div><span style="margin-left:auto;color:#F4701E;font-weight:900;font-size:30px">✓</span></div>
+        <div style="display:flex;align-items:center;gap:16px;background:#FAF4EF;border-radius:18px;padding:20px 24px"><span style="font-size:30px">📚</span><div><b style="font-size:26px">概念不清</b><div class="sub" style="font-size:18px">知识点没记住</div></div></div>
+      </div>
+    </div>
+    <div id="s5-review" style="margin-top:30px;background:#fff;border-radius:34px;padding:34px;box-shadow:0 24px 60px -26px rgba(120,60,30,.45);opacity:0;transform:translateY(40px)">
+      <div class="h2" style="font-size:34px">按遗忘曲线复习</div>
+      <div id="s5-dots" class="row" style="margin-top:30px;gap:0;flex-wrap:nowrap;justify-content:space-between">
+        <div style="text-align:center;flex:1"><div class="dot" style="width:26px;height:26px;border-radius:50%;background:#EFE2D8;margin:0 auto"></div><div class="sub" style="font-size:20px;margin-top:10px">5 分钟</div></div>
+        <div style="flex:1;height:5px;background:#EFE2D8;margin-top:-30px"></div>
+        <div style="text-align:center;flex:1"><div class="dot" style="width:26px;height:26px;border-radius:50%;background:#EFE2D8;margin:0 auto"></div><div class="sub" style="font-size:20px;margin-top:10px">1 天</div></div>
+        <div style="flex:1;height:5px;background:#EFE2D8;margin-top:-30px"></div>
+        <div style="text-align:center;flex:1"><div class="dot" style="width:26px;height:26px;border-radius:50%;background:#EFE2D8;margin:0 auto"></div><div class="sub" style="font-size:20px;margin-top:10px">3 天</div></div>
+        <div style="flex:1;height:5px;background:#EFE2D8;margin-top:-30px"></div>
+        <div style="text-align:center;flex:1"><div class="dot" style="width:26px;height:26px;border-radius:50%;background:#EFE2D8;margin:0 auto"></div><div class="sub" style="font-size:20px;margin-top:10px">7 天</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="cap"><span>错题自动记录<br><span class="hl">标错因 · 按遗忘曲线复习</span></span></div>
+</div>
+
+<!-- S6 结尾 -->
+<div class="scene" id="s6">
+  <div class="glow" style="width:900px;height:900px;background:rgba(244,112,30,.45);left:-240px;top:-200px"></div>
+  <div class="glow" style="width:820px;height:820px;background:rgba(233,69,96,.40);right:-220px;bottom:-200px"></div>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:38px">
+    <img id="s6-logo" class="appicon" src="icon-app.png" style="width:240px;height:240px;filter:drop-shadow(0 30px 60px rgba(233,69,96,.55))" />
+    <div id="s6-title" style="font-size:104px;font-weight:900;letter-spacing:3px">行测题库</div>
+    <div id="s6-lines" style="display:flex;flex-direction:column;gap:14px;align-items:center">
+      <div class="line sub" style="font-size:40px;color:#5C463C">完全离线 · 无广告 · 无账号</div>
+      <div class="line sub" style="font-size:32px;color:#9C8B80">你的每一次坚持，成就你更好的人生</div>
+    </div>
+    <div id="s6-cta" style="margin-top:26px;padding:22px 46px;border-radius:999px;background:var(--grad);color:#fff;font-size:32px;font-weight:800;box-shadow:0 24px 50px -22px rgba(233,69,96,.8)">下载方式见评论区</div>
+  </div>
+</div>
+
+</div>
+<script>
+// ===== 确定性时间轴：window.renderAt(t) =====
+const S = {};
+const $ = (id) => document.getElementById(id);
+const clamp = (v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const ease = (x)=>1-Math.pow(1-x,3);          // easeOutCubic
+const easeInOut = (x)=> x<.5 ? 4*x*x*x : 1-Math.pow(-2*x+2,3)/2;
+const lerp=(a,b,t)=>a+(b-a)*t;
+
+function setScene(id, t, start, end){
+  const el=$(id); const local=t-start;
+  if(local< -0.001 || local>end-start+0.001){ el.style.opacity=0; el.style.display='none'; return 0; }
+  el.style.display='block'; return local;
+}
+function fade(el, p){ el.style.opacity=clamp(p); }
+function slideY(el, from, to, p, extra=''){ el.style.transform = `translateY(${lerp(from,to,ease(p))}px) ${extra}`; }
+
+window.renderAt = function(t){
+  const q0=$('s5-q');
+  // ---------- S1 0 ~ 2.9 ----------
+  let L;
+  $('s1').style.display='block'; $('s1').style.opacity=1;
+  L=clamp(t/0.9); $('s1-logo').style.transform=`scale(${lerp(0.6,1,ease(L))})`; $('s1-logo').style.opacity=clamp(t/0.6);
+  L=clamp((t-0.35)/0.7); fade($('s1-title'),L); slideY($('s1-title'), 40, 0, L);
+  L=clamp((t-0.7)/0.7); fade($('s1-sub'),L); slideY($('s1-sub'), 30, 0, L);
+  L=clamp((t-1.05)/0.7); fade($('s1-badge'),L); slideY($('s1-badge'), 24, 0, L);
+  if(t>2.6){ $('s1').style.display='none'; }
+
+  // ---------- S2 2.9 ~ 7.9 ----------
+  L=setScene('s2', t, 2.6, 7.5);
+  if(L>0){
+    $('s2').style.opacity=clamp(L/0.35);
+    const p=clamp((L-0.05)/0.6);
+    $('s2-phone').style.transform=`translateX(-50%) translateY(${lerp(620,384,ease(p))}px) scale(.96)`;
+    // 数字滚动
+    const np=clamp((L-0.55)/0.9);
+    $('s2-num').textContent = Math.round(lerp(0,22298,ease(np))).toLocaleString('en-US');
+    $('s2-papers').textContent = Math.round(lerp(0,194,clamp((L-0.8)/0.5)));
+    $('s2-kps').textContent = Math.round(lerp(0,106,clamp((L-0.9)/0.5)));
+    $('s2-imgs').textContent = Math.round(lerp(0,12238,clamp((L-1.0)/0.6)));
+    const cp=clamp((L-1.9)/0.45);
+    $('s2-cap').style.opacity=cp; $('s2-cap').style.transform=`translateY(${lerp(50,0,ease(cp))}px)`;
+  }
+
+  // ---------- S3 7.9 ~ 12.4 ----------
+  L=setScene('s3', t, 7.5, 12.1);
+  if(L>0){
+    $('s3').style.opacity=clamp(L/0.3);
+    const p=clamp((L-0.05)/0.55);
+    $('s3-phone').style.transform=`translateX(-50%) translateY(${lerp(560,384,ease(p))}px) scale(.96)`;
+    const selp=clamp((L-1.5)/0.45);
+    const sel=$('s3-select'); if(sel){ sel.style.opacity=String(1-selp); sel.style.pointerEvents='none'; }
+    // 计时器
+    $('s3-sec').textContent = `0:${String(Math.floor(clamp(L,0,60))).padStart(2,'0')}`;
+    // 选项逐个出现
+    document.querySelectorAll('#s3 .opt').forEach((el,i)=>{
+      const q=clamp((L-0.5-i*0.14)/0.28);
+      el.style.opacity=clamp(q); el.style.transform=`translateX(${lerp(30,0,ease(q))}px)`;
+    });
+  }
+
+  // ---------- S4 12.4 ~ 15.8 ----------
+  L=setScene('s4', t, 12.1, 15.6);
+  if(L>0){
+    $('s4').style.opacity=clamp(L/0.3);
+    const p=clamp((L-0.05)/0.55);
+    $('s4-phone').style.transform=`translateX(-50%) translateY(${lerp(560,384,ease(p))}px) scale(.96)`;
+    const pp=clamp((L-1.6)/0.45);
+    const ppel=$('s4-papers'); if(ppel){ ppel.style.opacity=String(1-pp); ppel.style.pointerEvents='none'; }
+    const cd = 120*60 - Math.floor(clamp(L,0,60)*  (3.4/3.4) );
+    const mm=Math.floor(cd/60), ss=cd%60;
+    $('s4-cd-num').textContent=`${String(mm).padStart(3,'0')}:${String(ss).padStart(2,'0')}`;
+    const done = Math.min(119, Math.round(clamp(L/3.2)*119));
+    $('s4-done').textContent=done; $('s4-left').textContent=119-done;
+    $('s4-bar').style.width=`${(done/119)*100}%`;
+  }
+
+  // ---------- S5 15.8 ~ 19.9 ----------
+  L=setScene('s5', t, 15.6, 19.9);
+  if(L>0){
+    $('s5').style.opacity=clamp(L/0.35);
+    const p1=clamp((L-0.1)/0.45);
+    fade($('s5-title'),p1); slideY($('s5-title'), 40, 0, p1);
+    const pq=clamp((L-0.3)/0.45);
+    if (q0){ q0.style.opacity=clamp(pq); q0.style.transform=`translateY(${lerp(30,0,ease(pq))}px)`; }
+    const p2=clamp((L-0.55)/0.5);
+    $('s5-panel').style.opacity=clamp(p2); $('s5-panel').style.transform=`translateY(${lerp(40,0,ease(p2))}px)`;
+    const p3=clamp((L-1.25)/0.5);
+    $('s5-review').style.opacity=clamp(p3); $('s5-review').style.transform=`translateY(${lerp(40,0,ease(p3))}px)`;
+    document.querySelectorAll('#s5-dots .dot').forEach((el,i)=>{
+      const q=clamp((L-1.55-i*0.2)/0.3);
+      el.style.background = q>0.5 ? 'linear-gradient(135deg,#F4701E,#E94560)' : '#EFE2D8';
+      el.style.transform=`scale(${lerp(0.7,1,ease(q))})`;
+    });
+  }
+
+  // ---------- S6 19.9 ~ 24 ----------
+  L=setScene('s6', t, 19.9, 24.5);
+  if(L>0){
+    $('s6').style.opacity=clamp(L/0.4);
+    const p1=clamp((L-0.05)/0.6);
+    $('s6-logo').style.transform=`scale(${lerp(0.7,1,ease(p1))})`; $('s6-logo').style.opacity=clamp(p1+0.2);
+    const p2=clamp((L-0.3)/0.6); fade($('s6-title'),p2); slideY($('s6-title'),36,0,p2);
+    const p3=clamp((L-0.6)/0.6);
+    document.querySelectorAll('#s6-lines .line').forEach((el,i)=>{
+      const q=clamp(p3 - i*0.15); el.style.opacity=clamp(q); el.style.transform=`translateY(${lerp(24,0,ease(q))}px)`;
+    });
+    const p4=clamp((L-1.0)/0.6); $('s6-cta').style.opacity=clamp(p4); $('s6-cta').style.transform=`scale(${lerp(0.9,1,ease(p4))})`;
+  }
+};
+window.renderAt(0);
+</script>
+</body></html>

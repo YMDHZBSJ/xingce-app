@@ -674,3 +674,11 @@ input:focus, textarea:focus {
 
 @keyframes sheet-up { from { transform: translateY(30px); opacity: 0; } to { transform: none; opacity: 1; } }
 .reason-sheet { animation: sheet-up .26s cubic-bezier(.22,.61,.36,1) both; }
+
+/* 考试倒计时·最后 72 小时强调 */
+@keyframes cd-pulse {
+  0%, 100% { box-shadow: 0 14px 30px -14px rgba(220,38,38,.85), 0 0 0 0 rgba(220,38,38,.35); }
+  50%      { box-shadow: 0 14px 30px -14px rgba(220,38,38,.95), 0 0 0 6px rgba(220,38,38,0); }
+}
+.xc-countdown-urgent { animation: cd-pulse 2.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .xc-countdown-urgent { animation: none; } }

@@ -5,6 +5,7 @@
  * © 2026 xiaogaostu. All Rights Reserved.
  */
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import Icon, { type IconName } from "./Icon";
@@ -21,6 +22,7 @@ const TABS: Tab[] = [
 ];
 
 export default function TabBar() {
+  const router = useRouter();
   const raw = usePathname() || "/";
   const pathname = raw.length > 1 ? raw.replace(/\/+$/, "") : raw;
   const [typing, setTyping] = useState(false);
@@ -82,7 +84,14 @@ export default function TabBar() {
         {TABS.map((t) => {
           const on = activeIndex >= 0 && TABS[activeIndex].href === t.href;
           return (
-            <Link key={t.href} href={t.href} className="xc-tab" style={{ position: "relative", zIndex: 1 }}>
+            <Link
+              key={t.href}
+              href={t.href}
+              replace
+              onClick={(e) => { e.preventDefault(); router.replace(t.href); }}
+              className="xc-tab"
+              style={{ position: "relative", zIndex: 1 }}
+            >
               <span
                 style={{
                   display: "flex",
