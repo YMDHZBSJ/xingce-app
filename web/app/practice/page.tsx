@@ -131,6 +131,8 @@ export default function PracticePage() {
   const [marked, setMarked] = useState<Set<number>>(new Set());
   const [exitAsk, setExitAsk] = useState<false | "daily" | "practice">(false);
   const [reasonFor, setReasonFor] = useState<number | null>(null);
+  /** 答错待标记：已看答案且确实做错时，才提示标记错因 */
+  const [wrongPending, setWrongPending] = useState<number | null>(null);
   const [poster, setPoster] = useState(false);
   const toggleMark = useCallback((id?: number) => {
     if (!id) return;
@@ -348,14 +350,21 @@ export default function PracticePage() {
     if (wrong && q) {
       addWrongCount(q.id);
       enqueueReview(q.id);
-      setReasonFor(q.id); // 弹错因面板
+      // 不立即弹错因面板：等用户「查看答案」看到自己做错后，再提示标记错因
+      setWrongPending(q.id);
     }
     // 作答后把操作区定位到视野内，方便快速下一题
     setTimeout(() => window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" }), 80);
   };
 
   const toggleReveal = (questionId: number) => {
-    setRevealed((prev) => ({ ...prev, [questionId]: !prev[questionId] }));
+    const willReveal = !revealed[questionId];
+    setRevealed((prev) => ({ ...prev, [questionId]: willReveal }));
+    // 展开答案且本题做错 → 此时才问「为什么错」，并给出「跳过」
+    if (willReveal && wrongPending === questionId) {
+      setWrongPending(null);
+      setReasonFor(questionId);
+    }
   };
 
   const goNext = () => {

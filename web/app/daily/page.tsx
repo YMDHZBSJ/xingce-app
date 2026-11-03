@@ -52,6 +52,7 @@ export default function DailyPage() {
   const [revealed, setRevealed] = useState<Set<number>>(new Set());
   const [detailId, setDetailId] = useState<number | null>(null);
   const [reasonFor, setReasonFor] = useState<number | null>(null);
+  const [wrongPending, setWrongPending] = useState<number | null>(null);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [phase, setPhase] = useState<"quiz" | "result">("quiz");
@@ -143,7 +144,10 @@ export default function DailyPage() {
   const choose = (label: string) => {
     if (!q || answered) return;
     setAnswers((prev) => ({ ...prev, [String(q.id)]: label }));
-    if (label !== String(q.answer ?? "").trim()) { enqueueReview(q.id); setReasonFor(q.id); }
+    if (label !== String(q.answer ?? "").trim()) {
+      enqueueReview(q.id);
+      setWrongPending(q.id); // 等用户查看答案后再问错因
+    }
   };
 
   const submit = () => {
@@ -337,7 +341,13 @@ export default function DailyPage() {
             </button>
             {answered && !revealed.has(q.id) && (
               <button
-                onClick={() => setRevealed((prev) => new Set(prev).add(q.id))}
+                onClick={() => {
+                  setRevealed((prev) => new Set(prev).add(q.id));
+                  if (wrongPending === q.id) {
+                    setWrongPending(null);
+                    setReasonFor(q.id);
+                  }
+                }}
                 className="h-11 flex-1 rounded-xl text-[13px] font-bold text-white"
                 style={{ background: "linear-gradient(135deg,#F59E0B,#F4701E)" }}
               >
@@ -347,6 +357,15 @@ export default function DailyPage() {
             {answered && revealed.has(q.id) && (
               <div className="flex-1 text-center text-[11.5px] text-[var(--fg-muted)]">
                 正确答案 <b className={answered === correctAnswer ? "text-[var(--ok)]" : "text-[var(--accent-text)]"}>{correctAnswer}</b>
+                {answered !== correctAnswer && (
+                  <button
+                    onClick={() => setReasonFor(q.id)}
+                    className="ml-2 rounded-lg px-2 py-0.5 text-[11px] font-bold"
+                    style={{ background: "rgba(244,112,30,.10)", color: "var(--accent-text)" }}
+                  >
+                    标记错因
+                  </button>
+                )}
               </div>
             )}
             <button

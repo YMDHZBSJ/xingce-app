@@ -1,5 +1,5 @@
 const { chromium } = require('@playwright/test');
-const B = 'http://127.0.0.1:8331';
+const B = 'http://127.0.0.1:8421';
 const R = []; const ok = (n,c,x='') => R.push({n,c,x});
 
 (async () => {
@@ -19,7 +19,15 @@ const R = []; const ok = (n,c,x='') => R.push({n,c,x});
     if (await skip.count()) { await skip.click().catch(() => {}); await p.waitForTimeout(300); }
   };
 
+  // 确认弹窗：统一用 ConfirmDialog（.confirm-card），按钮文案可能是「确认/确定/交卷」
   const clickModalConfirm = async () => {
+    const card = p.locator('.confirm-card');
+    if (await card.count()) {
+      const btns = card.locator('button');
+      const n = await btns.count();
+      if (n > 0) { await btns.nth(n - 1).click(); await p.waitForTimeout(1800); }
+      return;
+    }
     const btn = p.locator('button', { hasText: /^(确认|确认交卷|确定)$/ }).first();
     if (await btn.count()) { await btn.click(); await p.waitForTimeout(1500); }
   };
@@ -35,7 +43,8 @@ const R = []; const ok = (n,c,x='') => R.push({n,c,x});
     if (await lab.count()) { await lab.locator('xpath=..').click(); await p.waitForTimeout(500); }
     await skipReason();
     const rev = p.locator('button',{hasText:/查看答案/}).first();
-    if (await rev.count()) { await rev.click(); await p.waitForTimeout(400); }
+    if (await rev.count()) { await rev.click(); await p.waitForTimeout(500); }
+    await skipReason();  // 看答案后可能弹出「为什么错」，需跳过才能点下一题
     const nxt = p.locator('button',{hasText:/下一题|交卷看分析/}).first();
     if (!(await nxt.count())) break;
     const txt = (await nxt.textContent()) || '';
