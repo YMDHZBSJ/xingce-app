@@ -29,3 +29,9 @@ Thumbs.db
 # 视频中间产物
 video/frames/
 video/audio/
+
+# 根目录构建缓存（Next 在 web/ 下构建时会在仓库根生成 .next/build）
+.next/
+
+# 用户报错截图（仅本地留存，不入库）
+错误*.jpg
