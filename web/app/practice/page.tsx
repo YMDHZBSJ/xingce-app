@@ -132,7 +132,6 @@ export default function PracticePage() {
   const [exitAsk, setExitAsk] = useState<false | "daily" | "practice">(false);
   const [reasonFor, setReasonFor] = useState<number | null>(null);
   /** 答错待标记：已看答案且确实做错时，才提示标记错因 */
-  const [wrongPending, setWrongPending] = useState<number | null>(null);
   const [poster, setPoster] = useState(false);
   const toggleMark = useCallback((id?: number) => {
     if (!id) return;
@@ -350,21 +349,14 @@ export default function PracticePage() {
     if (wrong && q) {
       addWrongCount(q.id);
       enqueueReview(q.id);
-      // 不立即弹错因面板：等用户「查看答案」看到自己做错后，再提示标记错因
-      setWrongPending(q.id);
+      // 不弹任何窗：错因面板只能由用户主动点击「标记错因」打开
     }
     // 作答后把操作区定位到视野内，方便快速下一题
     setTimeout(() => window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" }), 80);
   };
 
   const toggleReveal = (questionId: number) => {
-    const willReveal = !revealed[questionId];
-    setRevealed((prev) => ({ ...prev, [questionId]: willReveal }));
-    // 展开答案且本题做错 → 此时才问「为什么错」，并给出「跳过」
-    if (willReveal && wrongPending === questionId) {
-      setWrongPending(null);
-      setReasonFor(questionId);
-    }
+    setRevealed((prev) => ({ ...prev, [questionId]: !prev[questionId] }));
   };
 
   const goNext = () => {
@@ -891,6 +883,23 @@ export default function PracticePage() {
           prevSeconds={prevOfCurrent ?? undefined}
           answered={answered}
         />
+
+        {/* 答错提示：仅在「查看答案」后出现，避免提前泄露对错；只做静态提示条，不弹窗 */}
+        {isRevealed && answered && myAnswer !== correctAnswer && (
+          <div
+            className="mb-2 flex items-center gap-2 rounded-xl px-3 py-2 text-[11.5px]"
+            style={{ background: "rgba(233,69,96,.08)", border: "1px solid rgba(233,69,96,.18)" }}
+          >
+            <span>这道题答错了</span>
+            <button
+              onClick={() => setReasonFor(currentQ.id)}
+              className="ml-auto rounded-lg px-2.5 py-1 text-[11px] font-bold"
+              style={{ background: "var(--grad)", color: "#fff" }}
+            >
+              标记错因
+            </button>
+          </div>
+        )}
         <SwipeArea
           canPrev={currentIndex > 0}
           canNext={currentIndex < questions.length - 1}

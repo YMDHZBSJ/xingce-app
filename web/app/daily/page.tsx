@@ -52,7 +52,6 @@ export default function DailyPage() {
   const [revealed, setRevealed] = useState<Set<number>>(new Set());
   const [detailId, setDetailId] = useState<number | null>(null);
   const [reasonFor, setReasonFor] = useState<number | null>(null);
-  const [wrongPending, setWrongPending] = useState<number | null>(null);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [phase, setPhase] = useState<"quiz" | "result">("quiz");
@@ -146,7 +145,7 @@ export default function DailyPage() {
     setAnswers((prev) => ({ ...prev, [String(q.id)]: label }));
     if (label !== String(q.answer ?? "").trim()) {
       enqueueReview(q.id);
-      setWrongPending(q.id); // 等用户查看答案后再问错因
+      // 不弹任何窗：错因面板只能由用户主动点击「标记错因」打开
     }
   };
 
@@ -303,6 +302,23 @@ export default function DailyPage() {
       {/* 题目 */}
       <div className="mt-3">
         <QuestionTimer seconds={qSec} delta={answered ? "first" : "first"} answered={!!answered} />
+
+        {/* 答错提示：仅在「查看答案」后出现，避免提前泄露对错；只做静态提示条，不弹窗 */}
+        {revealed.has(q.id) && answered && answered !== correctAnswer && (
+          <div
+            className="mb-2 flex items-center gap-2 rounded-xl px-3 py-2 text-[11.5px]"
+            style={{ background: "rgba(233,69,96,.08)", border: "1px solid rgba(233,69,96,.18)" }}
+          >
+            <span>这道题答错了</span>
+            <button
+              onClick={() => setReasonFor(q.id)}
+              className="ml-auto rounded-lg px-2.5 py-1 text-[11px] font-bold"
+              style={{ background: "var(--grad)", color: "#fff" }}
+            >
+              标记错因
+            </button>
+          </div>
+        )}
         <SwipeArea
           canPrev={index > 0}
           canNext={index < questions.length - 1}
@@ -341,13 +357,7 @@ export default function DailyPage() {
             </button>
             {answered && !revealed.has(q.id) && (
               <button
-                onClick={() => {
-                  setRevealed((prev) => new Set(prev).add(q.id));
-                  if (wrongPending === q.id) {
-                    setWrongPending(null);
-                    setReasonFor(q.id);
-                  }
-                }}
+                onClick={() => setRevealed((prev) => new Set(prev).add(q.id))}
                 className="h-11 flex-1 rounded-xl text-[13px] font-bold text-white"
                 style={{ background: "linear-gradient(135deg,#F59E0B,#F4701E)" }}
               >
